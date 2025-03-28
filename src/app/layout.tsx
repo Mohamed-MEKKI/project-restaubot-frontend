@@ -3,12 +3,12 @@ import {
   ClerkProvider,
   SignInButton,
   SignUpButton,
-  SignedIn,
   SignedOut,
-  UserButton,
 } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import Footer from '../components/footer'
+import Header from '../components/header'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -31,25 +31,31 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
+    
     <ClerkProvider>
 
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <Header/>
 
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <SignedOut>
-              <SignInButton />
-              <SignUpButton />
-            </SignedOut>
+        <html lang="en">
 
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          {children}
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 
-        </body>
-      </html>
+            <header className="flex justify-end items-center p-4 gap-4 h-16">
+              
+              <SignedOut>
+                <SignInButton />
+                <SignUpButton />
+              </SignedOut>
+              
+            </header>
+            
+            {children}
+
+          </body>
+
+        </html>
+
+      <Footer />
 
     </ClerkProvider>
   )
