@@ -1,8 +1,7 @@
-import api  from '../api/apiClient';
-
+import axios from "axios";
 
 async function getData(params) {
-    await api.get('http://127.0.0.1:7000/')
+    await axios.get('http://127.0.0.1:7000/')
             .then(response => {
                 console.log(response.data);
             })
@@ -21,7 +20,7 @@ async function getData(params) {
 }
 
 async function postData(params) {
-    await api.post('http://127.0.0.1:7000/')
+    await axios.post('http://127.0.0.1:7000/')
             .then(response => {
                 console.log(response.data);
             })
@@ -39,10 +38,11 @@ async function postData(params) {
     
 }
 
-async function putData(params) {
-    await api.put('http://127.0.0.1:7000/items',{item_id: 1})
+export async function putData(params) {
+    const putData = await axios.put('http://127.0.0.1:7000/items/1',{item_id: 1})
             .then(response => {
-                console.log(response.data);
+                console.log(response.data.item_name);
+                return response.data.item_name;
             })
             .catch(error => {
                 if (error.response ){
@@ -55,7 +55,6 @@ async function putData(params) {
                 console.error(error);
                 }
             });
-    
 }
     
 putData();
