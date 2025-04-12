@@ -11,8 +11,8 @@ import {
 
 const navigation = [
   { name: 'Dashboard', href: '/', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
+  { name: 'Profile', href: '/profile', current: false },
+  { name: 'Contact us', href: '/contact', current: false },
   { name: 'Calendar', href: '#', current: false },
 ]
 
@@ -72,6 +72,11 @@ export default function Header() {
               </button>
 
               {/* Profile dropdown */}
+              <SignedOut>
+                <SignInButton />
+                <SignUpButton />
+              </SignedOut>
+                            
               
               <SignedIn>
                 <UserButton />

@@ -1,5 +1,5 @@
+import Link from 'next/link';
 import {getData} from '../../api/client'
-//import {useState, useEffect} from 'react'
 
 
 
@@ -46,6 +46,19 @@ export default async function Orders() {
     
     <div className="min-h-screen bg-gray-50 p-8">
       <h1 className="text-2xl font-bold mb-6">Orders</h1>
+      <div className="space-x-4">
+        <button
+          className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Modify
+        </button>
+
+        <button
+          className="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+        >
+          Delete
+        </button>
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {orders.map((order) => (
@@ -53,15 +66,16 @@ export default async function Orders() {
             key={order.id}
             className="bg-white rounded-xl shadow-md p-4 flex flex-col justify-between hover:shadow-lg transition"
           >
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-gray-500">{order.id}</span>
-              <span
-                className={`text-xs font-medium px-2 py-1 rounded ${statusColor[order.status]}`}
-              >
-                {order.status}
-              </span>
-            </div>
-
+            <Link href={`/orders/${order.id}`}>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm text-gray-500">{order.id}</span>
+                <span
+                  className={`text-xs font-medium px-2 py-1 rounded ${statusColor[order.status]}`}
+                >
+                  {order.status}
+                </span>
+              </div>
+            </Link>
             <h2 className="text-lg font-semibold">{order.image}</h2>
             <p className="text-sm text-gray-600 mt-1">
               {order.name}
@@ -73,7 +87,7 @@ export default async function Orders() {
             </div>
           </div>
         ))}
-      </div>
+        </div>
     </div>
   );
 }

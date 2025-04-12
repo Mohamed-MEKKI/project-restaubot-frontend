@@ -1,10 +1,4 @@
 import type { Metadata } from 'next'
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedOut,
-} from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import Footer from "../components/footer"
@@ -32,23 +26,12 @@ export default function RootLayout({
 }>) {
   return (
     
-    <ClerkProvider>
-
+    <>
       <Header/>
 
         <html lang="en">
 
           <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-
-
-            <header className="flex justify-end items-center p-4 gap-4 h-16">
-              
-              <SignedOut>
-                <SignInButton />
-                <SignUpButton />
-              </SignedOut>
-              
-            </header>
             
             {children}
 
@@ -59,8 +42,7 @@ export default function RootLayout({
         </html>
 
       <Footer />
-
-    </ClerkProvider>
+    </>
 
   )
 }
