@@ -12,9 +12,9 @@ export async function getData(params) {
     }
 }
 
-export async function getItem(id) {
+export async function getItem(params, id) {
     try{
-        const response = await axios.get(`http://127.0.0.1:8000/menuitem/get/${id}`)
+        const response = await axios.get(`http://127.0.0.1:8000/${params}/get/${id}`)
         return response.data
     }catch(error){
         console.error(error)
@@ -26,7 +26,7 @@ export async function getItem(id) {
 
 export async function postItem(params, form) {
     try{
-        const response = await axios.post(`http://127.0.0.1:8000/menuitem/${params}/`,form,
+        const response = await axios.post(`http://127.0.0.1:8000/${params}/create`,form,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'
