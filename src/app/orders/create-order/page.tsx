@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
+import { getItem } from '../../../api/client';
 
 export default function OrderForm({ params }) {
   const { id } = params;
@@ -18,8 +19,8 @@ export default function OrderForm({ params }) {
     console.log(event.currentTarget)
     try {
       const formData = new FormData(event.currentTarget)
-      const response = await fetch('http://127.0.0.1:8000/user/update/1', {
-        method: 'PUT',
+      const response = await fetch('http://127.0.0.1:8000/order/create/', {
+        method: 'POST',
         body: formData,
       })
       console.log(response)
@@ -36,7 +37,7 @@ export default function OrderForm({ params }) {
 
 
     <div className="bg-gray-100 min-h-screen p-6">
-      <h1 className="text-2xl font-bold mb-6">Edit user info</h1>
+      <h1 className="text-2xl font-bold mb-6">Create new order</h1>
       <form className="space-y-4 bg-white p-6 rounded-lg shadow" onSubmit={onSubmit}>
         
         <label className="bg-white-600 block text-sm font-medium text-gray-700">Name</label> 
@@ -45,9 +46,15 @@ export default function OrderForm({ params }) {
         <input type="email" name="email" placeholder='Customer email' /><br />
         <label className="bg-white-600 block text-sm font-medium text-gray-700">Phone</label>
         <input type="tel" name="phone" placeholder='Customer phone' /><br />
+        <label className="bg-white-600 block text-sm font-medium text-gray-700">Address</label>
+        <input type="text" name="address" placeholder='Customer address' /><br />
+        <label className="bg-white-600 block text-sm font-medium text-gray-700">Items</label>
+        <input type="text" name="items" placeholder='Items' /><br />
+        <label className="bg-white-600 block text-sm font-medium text-gray-700">Total</label>
+        <input type="text" name="total" placeholder='Total' /><br />
         
         
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" type="submit" disabled={isLoading} onClick={() => router.push('/users')}>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" type="submit" disabled={isLoading} onClick={() => router.push('/orders')}>
           {isLoading ? 'Loading...' : 'Submit'}
         </button>
     </form>
