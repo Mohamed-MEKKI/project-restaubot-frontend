@@ -5,10 +5,15 @@ import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
 import { Rating } from 'primereact/rating';
 import { classNames } from 'primereact/utils';
+import { getData } from '../../api/client'
 import React from 'react';
 
-export default function Menu() {
-  const products = [
+
+
+export default async function MenuClient() {
+  const products = await getData('menuitem');
+  /*
+  const example = [
     {
       id: 1000,
       name: 'Bamboo Watch',
@@ -19,30 +24,10 @@ export default function Menu() {
       inventoryStatus: 'INSTOCK',
       rating: 5,
     },
-    {
-      id: 1001,
-      name: 'Black Watch',
-      image: 'black-watch.jpg',
-      description: 'Product Description',
-      price: 72,
-      category: 'Accessories',
-      inventoryStatus: 'LOWSTOCK',
-      rating: 4,
-    },
-    {
-      id: 1002,
-      name: 'Blue Band',
-      image: 'blue-band.jpg',
-      description: 'Product Description',
-      price: 79,
-      category: 'Fitness',
-      inventoryStatus: 'OUTOFSTOCK',
-      rating: 3,
-    },
-  ];
+  ];*/
 
   const getSeverity = (product) => {
-    switch (product.inventoryStatus) {
+    switch (product.inventory_status) {
       case 'INSTOCK':
         return 'success';
       case 'LOWSTOCK':
@@ -70,9 +55,9 @@ export default function Menu() {
               <div className="flex gap-3 items-center">
                 <span className="flex gap-1 items-center">
                   <i className="pi pi-tag" />
-                  <span className="font-medium">{product.category}</span>
+                  <span className="font-medium">{product.cuisine}</span>
                 </span>
-                <Tag value={product.inventoryStatus} severity={getSeverity(product)} />
+                <Tag value={product.inventory_status} severity={getSeverity(product)} />
               </div>
             </div>
             <div className="flex flex-col items-end justify-between">
@@ -80,7 +65,7 @@ export default function Menu() {
               <Button
                 icon="pi pi-shopping-cart"
                 className="p-button-rounded mt-2"
-                disabled={product.inventoryStatus === 'OUTOFSTOCK'}
+                disabled={product.inventory_status === 'OUTOFSTOCK'}
               />
             </div>
           </div>
@@ -89,23 +74,22 @@ export default function Menu() {
     );
   };
 
-  const listTemplate = (items) => {
-    if (!items || items.length === 0) return <div>No items found.</div>;
-    return <div className="grid">{items.map(itemTemplate)}</div>;
-  };
-
+  //  if (!items || items.length === 0) return <div>No items found.</div>;
   return (
-    <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center justify-center">
+    <>
+      <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center justify-center">
         <h1 className="text-2xl font-bold mb-6">Menu</h1>
-        <div className='"bg-white p-8 rounded-[10px] mb-4'>
-        <DataView
-          value={products}
-          layout="list"
-          itemTemplate={itemTemplate}
-          paginator
-          rows={5}
-        />
+        <div className="bg-white p-8 rounded-[10px] mb-4">
+          <DataView
+            value={products}
+            layout="list"
+            itemTemplate={itemTemplate}
+            paginator
+            rows={7}
+          />
         </div>
-    </div>
+      </div>
+    </>
   );
 }
+

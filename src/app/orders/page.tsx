@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import OrderStatusSelect from '../../components/OrderStatusSelect';
-import {getData} from '../../api/client'
+import { getData } from '../../api/client';
 
 
 
@@ -22,7 +22,7 @@ export default async function Orders() {
 
  
   return (
-    
+    <>
     <div className="min-h-screen bg-gray-50 p-8">
       <h1 className="text-2xl font-bold mb-6">Orders</h1>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -73,6 +73,7 @@ export default async function Orders() {
         ))}
         </div>
     </div>
+    </>
   );
 }
 
