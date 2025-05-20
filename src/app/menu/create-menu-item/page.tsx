@@ -38,12 +38,13 @@ export default function MenuItemForm({ params }) {
 
     <div className="bg-gray-100 min-h-screen p-6">
       <h1 className="text-2xl font-bold mb-6">Create new menu item</h1>
+
+      
+
       <form className="space-y-4 bg-white p-6 rounded-lg shadow" onSubmit={onSubmit}>
         
         <label className="bg-white-600 block text-sm font-medium text-gray-700">Name</label> 
         <input type="text" name="name" placeholder='Menu item name' /><br />
-        <label className="bg-white-600 block text-sm font-medium text-gray-700">Items</label>
-        <input type="text" name="items" placeholder='Items' /><br />
         <label className="bg-white-600 block text-sm font-medium text-gray-700">Price</label>
         <input type="text" name="price" placeholder='Price' /><br />  
         <label className="bg-white-600 block text-sm font-medium text-gray-700">Image</label>

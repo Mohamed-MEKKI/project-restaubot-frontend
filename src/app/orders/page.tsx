@@ -3,7 +3,6 @@ import OrderStatusSelect from '../../components/OrderStatusSelect';
 import { getData } from '../../api/client';
 
 
-
 export default async function Orders() {
   await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a delay
   const orders = await getData('order')
@@ -25,6 +24,7 @@ export default async function Orders() {
     <>
     <div className="min-h-screen bg-gray-50 p-8">
       <h1 className="text-2xl font-bold mb-6">Orders</h1>
+
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {orders.map((order) => (
           <div

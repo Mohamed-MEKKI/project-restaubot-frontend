@@ -10,7 +10,7 @@ import {
 } from '@clerk/nextjs'
 
 const navigation = [
-  { name: 'Dashboard', href: '/', current: true },
+  { name: 'Dashboard', href: '/dashboard', current: false },
   { name: 'Profile', href: '/profile', current: false },
   { name: 'Contact us', href: '/contact', current: false },
   { name: 'Calendar', href: '#', current: false },

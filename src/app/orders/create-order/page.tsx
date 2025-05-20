@@ -1,7 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
-import { getItem } from '../../../api/client';
 
 export default function OrderForm({ params }) {
   const { id } = params;
