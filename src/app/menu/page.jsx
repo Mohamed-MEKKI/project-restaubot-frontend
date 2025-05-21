@@ -50,7 +50,7 @@ export default function MenuClient() {
         className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 p-5 mb-5"
       >
         <div className="flex flex-col xl:flex-row gap-6 items-center xl:items-start">
-          <div className="card flex justify-center">
+          <div className="card flex justify-center bg-gray-100 rounded-lg shadow-sm p-2">
           <Checkbox
             onChange={(e) => setChecked(e.checked)}
             checked={checked}
@@ -59,7 +59,7 @@ export default function MenuClient() {
           </div>
 
           <img
-            src={`https://primefaces.org/cdn/primereact/images/product/${product.image}`}
+            src={`http://localhost:8000${product.image}`}
             alt={product.name}
             className="w-28 h-28 object-cover rounded-lg shadow-sm"
           />
@@ -92,6 +92,7 @@ export default function MenuClient() {
                 />
                 <Link
                   href={`/menu/${product.id}`}
+                  icon="pi pi-eye"
                   className="p-button p-button-sm p-button-primary p-button-rounded"
                 >
                   View

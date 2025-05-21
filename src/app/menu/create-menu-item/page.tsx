@@ -38,7 +38,7 @@ export default function MenuItemForm({ params }) {
         <h1 className="text-2xl font-bold text-gray-800 mb-6">Create New Menu Item</h1>
 
         <form className="space-y-5" onSubmit={onSubmit}>
-          {['name', 'price', 'image', 'cuisine', 'description'].map((field) => (
+          {['name', 'price', 'cuisine', 'description'].map((field) => (
             <div key={field}>
               <label className="block text-sm font-medium text-gray-700 capitalize">
                 {field}
@@ -52,6 +52,14 @@ export default function MenuItemForm({ params }) {
               />
             </div>
           ))}
+            <label className="block text-sm font-medium text-gray-700">Image</label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              className="mt-1 block w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              required
+            />
 
           <button
             type="submit"

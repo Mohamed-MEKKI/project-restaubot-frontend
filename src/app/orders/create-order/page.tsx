@@ -6,7 +6,6 @@ export default function OrderForm({ params }) {
   const { id } = params;
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const router = useRouter()
-  //const order = getItem('1')
 
 
   //if (!order) return <p className="p-8">Loading order...</p>;

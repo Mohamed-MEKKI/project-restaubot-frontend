@@ -19,7 +19,7 @@ export default async function UsersPage() {
               className="p-4 bg-white rounded-xl shadow flex items-center"
             >
               <img
-                src={user.avatar}
+                src={`http://localhost:8000${user.image}`}
                 alt={user.name}
                 className="w-12 h-12 rounded-full mr-4"
               />
