@@ -2,17 +2,20 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
 const isProtectedRoute = createRouteMatcher(['/admin(.*)'])
 const isNotProtectedRoute = createRouteMatcher(['/clients(.*)'])
+const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', '/api/webhooks/clerk(.*)'])
 
 export default clerkMiddleware(async (auth, req) => {
   const { has, redirectToSignIn } = await auth()
   // Restrict admin routes to users with specific permissions
   if (
   isProtectedRoute(req) && 
-  !(has({ permission: 'org:admin:example1' }) || has({ permission: 'org:admin:example2' }))
-) {
+  !(has({ permission: 'org:admin:example1' }) || has({ permission: 'org:admin:example2' }))) {
   return redirectToSignIn();
 }
+if (!isPublicRoute(req)) {
+  await auth.protect()
 
+}
 })
 
 export const config = {

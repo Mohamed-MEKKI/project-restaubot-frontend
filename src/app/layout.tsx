@@ -1,6 +1,7 @@
 'use client'
 
 import { Geist, Geist_Mono } from 'next/font/google'
+import { ClerkProvider } from '@clerk/nextjs'
 import 'primereact/resources/themes/lara-light-indigo/theme.css';  
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -33,8 +34,9 @@ export default function RootLayout({
   return (
     
     <>
+      <ClerkProvider>
       {shouldShowHeader && <Header/>}
-
+        
         <html lang="en">
 
           <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
@@ -46,8 +48,9 @@ export default function RootLayout({
 
 
         </html>
-
+        
       {shouldShowHeader && <Footer />}
+      </ClerkProvider>
     </>
 
   )

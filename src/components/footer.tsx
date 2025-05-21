@@ -1,73 +1,87 @@
 export default function Footer() {
   return (
     <>
-    <footer className="relative bg-blueGray-200 pt-8 pb-6">
-        <div className="container mx-auto px-4">
-            <div className="flex flex-wrap text-left lg:text-left">
-            <div className="w-full lg:w-6/12 px-4">
-                <h4 className="text-3xl fonat-semibold text-blueGray-700">Let's keep in touch!</h4>
-                <h5 className="text-lg mt-0 mb-2 text-blueGray-600">
-                Find us on any of these platforms, we respond 1-2 business days.
-                </h5>
-                <div className="mt-6 lg:mb-0 mb-6">
-                <button className="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
-                    <i className="fab fa-twitter"></i></button><button className="bg-white text-lightBlue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
-                    <i className="fab fa-facebook-square"></i></button><button className="bg-white text-pink-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
-                    <i className="fab fa-dribbble"></i></button><button className="bg-white text-blueGray-800 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
-                    <i className="fab fa-github"></i>
+    <div className="relative bg-gray-200 pt-12 pb-8">
+    <div className="container mx-auto px-4">
+        <div className="flex flex-wrap text-left lg:text-left">
+        {/* Contact & Social Section */}
+        <div className="w-full lg:w-6/12 px-4 mb-8 lg:mb-0">
+            <h4 className="text-3xl font-semibold text-gray-800">Let's keep in touch!</h4>
+            <p className="text-lg mt-2 mb-4 text-gray-600">
+            Find us on any of these platforms. We respond within 1–2 business days.
+            </p>
+            <div className="flex space-x-3">
+            {[
+                { icon: 'twitter', color: 'text-sky-500' },
+                { icon: 'facebook-square', color: 'text-blue-600' },
+                { icon: 'dribbble', color: 'text-pink-500' },
+                { icon: 'github', color: 'text-gray-800' },
+            ].map((btn, index) => (
+                <button
+                key={index}
+                className={`bg-white shadow-md h-10 w-10 rounded-full flex items-center justify-center focus:outline-none ${btn.color}`}
+                type="button"
+                >
+                <i className={`fab fa-${btn.icon}`} />
                 </button>
-                </div>
+            ))}
             </div>
-            <div className="w-full lg:w-6/12 px-4">
-                <div className="flex flex-wrap items-top mb-6">
-                <div className="w-full lg:w-4/12 px-4 ml-auto">
-                    <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">Useful Links</span>
-                    <ul className="list-unstyled">
-                    <li>
-                        <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://www.creative-tim.com/presentation?ref=njs-profile">About Us</a>
-                    </li>
-                    <li>
-                        <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://blog.creative-tim.com?ref=njs-profile">Blog</a>
-                    </li>
-                    <li>
-                        <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://www.github.com/creativetimofficial?ref=njs-profile">Github</a>
-                    </li>
-                    <li>
-                        <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://www.creative-tim.com/bootstrap-themes/free?ref=njs-profile">Free Products</a>
-                    </li>
-                    </ul>
-                </div>
-                <div className="w-full lg:w-4/12 px-4">
-                    <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">Other Resources</span>
-                    <ul className="list-unstyled">
-                    <li>
-                        <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://github.com/creativetimofficial/notus-js/blob/main/LICENSE.md?ref=njs-profile">MIT License</a>
-                    </li>
-                    <li>
-                        <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://creative-tim.com/terms?ref=njs-profile">Terms &amp; Conditions</a>
-                    </li>
-                    <li>
-                        <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://creative-tim.com/privacy?ref=njs-profile">Privacy Policy</a>
-                    </li>
-                    <li>
-                        <a className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm" href="https://creative-tim.com/contact-us?ref=njs-profile">Contact Us</a>
-                    </li>
-                    </ul>
-                </div>
-                </div>
+        </div>
+
+        {/* Links Section */}
+        <div className="w-full lg:w-6/12 px-4">
+            <div className="flex flex-wrap mb-6">
+            {/* Useful Links */}
+            <div className="w-full md:w-6/12 px-4">
+                <h6 className="uppercase text-gray-500 text-sm font-semibold mb-3">Useful Links</h6>
+                <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-gray-800 text-sm font-medium">About Us</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-800 text-sm font-medium">Blog</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-800 text-sm font-medium">Github</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-800 text-sm font-medium">Free Products</a></li>
+                </ul>
             </div>
-            </div>
-            <hr className="my-6 border-blueGray-300"></hr>
-            <div className="flex flex-wrap items-center md:justify-between justify-center">
-            <div className="w-full md:w-4/12 px-4 mx-auto text-center">
-                <div className="text-sm text-blueGray-500 font-semibold py-1">
-                Copyright © <span id="get-current-year">2021</span><a href="https://www.creative-tim.com/product/notus-js" className="text-blueGray-500 hover:text-gray-800" target="_blank"> Notus JS by</a>
-                <a href="https://www.creative-tim.com?ref=njs-profile" className="text-blueGray-500 hover:text-blueGray-800">Creative Tim</a>.
-                </div>
+            {/* Other Resources */}
+            <div className="w-full md:w-6/12 px-4 mt-6 md:mt-0">
+                <h6 className="uppercase text-gray-500 text-sm font-semibold mb-3">Other Resources</h6>
+                <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-gray-800 text-sm font-medium">MIT License</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-800 text-sm font-medium">Terms &amp; Conditions</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-800 text-sm font-medium">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-800 text-sm font-medium">Contact Us</a></li>
+                </ul>
             </div>
             </div>
         </div>
-    </footer>
+        </div>
+
+        <hr className="my-6 border-gray-300" />
+
+        <div className="flex flex-wrap items-center justify-center md:justify-between text-center">
+        <div className="w-full md:w-auto px-4 text-sm text-gray-500 font-medium">
+            © {new Date().getFullYear()}{" "}
+            <a
+            href="https://www.creative-tim.com/product/notus-js"
+            className="text-gray-600 hover:text-gray-800"
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            Notus JS
+            </a>{" "}
+            by{" "}
+            <a
+            href="https://www.creative-tim.com"
+            className="text-gray-600 hover:text-gray-800"
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            Creative Tim
+            </a>.
+        </div>
+        </div>
+    </div>
+    </div>
+
     </>
   )
 }

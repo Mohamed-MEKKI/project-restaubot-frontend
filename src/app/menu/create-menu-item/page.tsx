@@ -1,63 +1,69 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useEffect, useState } from 'react';
-
+import { FormEvent, useState } from 'react';
 
 export default function MenuItemForm({ params }) {
   const { id } = params;
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const router = useRouter()
-  //const order = getItem('1')
-
-
-  //if (!order) return <p className="p-8">Loading order...</p>;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    setIsLoading(true) // Set loading to true when the request starts
-    console.log('Submitting form...')
-    console.log(event.currentTarget)
+    event.preventDefault();
+    setIsLoading(true);
+    
     try {
-      const formData = new FormData(event.currentTarget)
+      const formData = new FormData(event.currentTarget);
       const response = await fetch('http://127.0.0.1:8000/menuitem/create/', {
         method: 'POST',
         body: formData,
-      })
-      console.log(response)
-      // Handle response if necessary
-      const data = await response.json()
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Item created:', data);
+        router.push('/menu');
+      } else {
+        console.error('Server responded with an error.');
+      }
     } catch (error) {
-      console.error(error)
+      console.error('Error submitting form:', error);
     } finally {
-      setIsLoading(false) // Set loading to false when the request completes
+      setIsLoading(false);
     }
   }
 
   return (
+    <div className="bg-gray-100 min-h-screen p-6 flex items-center justify-center">
+      <div className="w-full max-w-xl bg-white p-8 rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">Create New Menu Item</h1>
 
+        <form className="space-y-5" onSubmit={onSubmit}>
+          {['name', 'price', 'image', 'cuisine', 'description'].map((field) => (
+            <div key={field}>
+              <label className="block text-sm font-medium text-gray-700 capitalize">
+                {field}
+              </label>
+              <input
+                type="text"
+                name={field}
+                placeholder={`Enter ${field}`}
+                className="mt-1 block w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                required
+              />
+            </div>
+          ))}
 
-    <div className="bg-gray-100 min-h-screen p-6">
-      <h1 className="text-2xl font-bold mb-6">Create new menu item</h1>
-
-      
-
-      <form className="space-y-4 bg-white p-6 rounded-lg shadow" onSubmit={onSubmit}>
-        
-        <label className="bg-white-600 block text-sm font-medium text-gray-700">Name</label> 
-        <input type="text" name="name" placeholder='Menu item name' /><br />
-        <label className="bg-white-600 block text-sm font-medium text-gray-700">Price</label>
-        <input type="text" name="price" placeholder='Price' /><br />  
-        <label className="bg-white-600 block text-sm font-medium text-gray-700">Image</label>
-        <input type="text" name="image" placeholder='Image' /><br />
-        <label className="bg-white-600 block text-sm font-medium text-gray-700">Cuisine</label>
-        <input type="text" name="cuisine" placeholder='Cuisine' /><br />
-        <label className="bg-white-600 block text-sm font-medium text-gray-700">Description</label>
-        <input type="text" name="description" placeholder='Description' /><br />
-
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" type="submit" disabled={isLoading} onClick={() => router.push('/menu')}>
-          {isLoading ? 'Loading...' : 'Submit'}
-        </button>
-    </form>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={`w-full bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors ${
+              isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
+            }`}
+          >
+            {isLoading ? 'Submitting...' : 'Submit'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
+
 export default function HomePage() {
   return (
-    <div className="bg-white text-gray-900">
+    <div className="min-h-screen bg-gray-50 p-8">
       {/* Hero Section */}
       <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center bg-gradient-to-br from-blue-50 to-white">
         <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
@@ -12,12 +14,13 @@ export default function HomePage() {
           Powerful tools to help you build, grow, and retain users. No code, no hassle.
         </p>
         <div className="space-x-4">
-          <button className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
+          <Link href="/sign-in" className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
             Get Started
-          </button>
-          <button className="px-6 py-3 border border-gray-300 rounded-xl hover:bg-gray-100">
+          </Link>
+          <Link href="#" className="px-6 py-3 border border-gray-300 rounded-xl hover:bg-gray-100">
+              
             Learn More
-          </button>
+          </Link>
         </div>
       </section>
 

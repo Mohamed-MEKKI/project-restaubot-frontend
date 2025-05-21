@@ -27,6 +27,12 @@ export default function Home() {
               <p className="text-sm text-gray-500 mt-1">+8.4% this month</p>
             </div>
 
+            <div className="bg-green-400 p-6 rounded-2xl shadow-md">       
+              <a className="text-xl font-semibold " href="#">Whatsupp Bot</a>
+              <p className="mt-2 text-3xl font-bold ">Use it now !</p>
+              <p className="text-sm text-gray-500 mt-1">*100 responsive this month</p>
+            </div>
+
             <div className="bg-white p-6 rounded-2xl shadow-md">       
               <a className="text-xl font-semibold text-gray-700" href="/menu">Menu Management</a>
               
