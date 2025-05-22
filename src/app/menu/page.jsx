@@ -1,12 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { DataView } from 'primereact/dataview';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { ButtonGroup } from 'primereact/buttongroup';
 import { Tag } from 'primereact/tag';
+import { Toast } from 'primereact/toast';
 import { Rating } from 'primereact/rating';
+import {useSearchParams} from 'next/navigation';
 import Link from 'next/link';
 import React from 'react';
 
@@ -14,6 +16,23 @@ export default function MenuClient() {
   const [products, setProducts] = useState([]);
   const [checked, setChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const toast = useRef(null)
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const toastType = searchParams.get('toast')
+
+    if (toastType === 'success'){
+        setTimeout(() => {
+            toast.current?.show({
+              severity: 'success',
+              summary: 'Success',
+              detail : 'Item updated successfully ! ',
+              life: 3000
+          })
+        }, 1000)
+    }
+  },[searchParams])
 
   useEffect(() => {
     async function fetchItems() {
@@ -107,6 +126,7 @@ export default function MenuClient() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
+      <Toast ref={toast} position="top-right" />
       <div className="max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Menu</h1>
 
