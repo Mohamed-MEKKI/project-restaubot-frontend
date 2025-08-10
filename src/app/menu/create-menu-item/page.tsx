@@ -96,7 +96,7 @@ export default function MenuItemForm({ params }) {
               accept="image/*"
               className="mt-1 block w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
-            {errors.image && <Message severity="error" text={errors.image} />}
+            <Message severity="error" text="Image error" />
           </div>
 
           <Toast ref={toastRef} position="top-right" />

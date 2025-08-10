@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, use, useCallback } from 'react';
 import { DataView } from 'primereact/dataview';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
@@ -15,10 +15,13 @@ import React from 'react';
 export default function MenuClient() {
   const [products, setProducts] = useState([]);
   const [checked, setChecked] = useState(false);
+  const [clicked, setClicked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedItems, setSelectedItems] = useState([])
   const toast = useRef(null)
   const searchParams = useSearchParams();
 
+  
   useEffect(() => {
     const toastType = searchParams.get('toast')
 
@@ -32,24 +35,69 @@ export default function MenuClient() {
           })
         }, 1000)
     }
+    
   },[searchParams])
 
+  const handleToggleSelection = (id) => {
+    setSelectedItems((prevSelected) => { 
+      if (prevSelected.includes(id)) {
+        return prevSelected.filter(item => item !== id)
+    }})
+  }
+
   useEffect(() => {
+    setIsLoading(true);
     async function fetchItems() {
-      setIsLoading(true);
+      
       try {
-        const response = await fetch('http://127.0.0.1:8000/menuitem/get-all/');
-        const data = await response.json();
-        setProducts(data);
+      const response = await fetch('http://127.0.0.1:8000/menuitem/get-all/');
+      const data = await response.json();
+      setProducts(data);
       } catch (error) {
-        console.error('Failed to fetch menu items:', error);
+      console.error('Failed to fetch menu items:', error);
       } finally {
-        setIsLoading(false);
+      setIsLoading(false);
       }
     }
 
     fetchItems();
   }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    async function deleteItems() {
+      if (clicked) {
+        try {
+          const response = fetch('http://127.0.0.1:8000/menuitem/delete/', {
+            headers:{
+              'Content-Type':"application/json"
+            },
+            method: 'DELETE'
+          })
+          console.log('Items deleted successfully');
+          setChecked(false);
+          setClicked(false);
+          // Optionally, refetch items to update the list
+          //await fetchItems();
+          window.location.reload();
+        }
+        catch(error){
+          console.error('Error deleting items:', error);
+          throw new Error('Failed to delete items');
+          toast.current?.show({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to delete items',
+            life: 3000
+          });
+        }
+        finally {
+          setIsLoading(false);
+        }
+      }
+    }
+    deleteItems();
+  }, [clicked]);
 
   const getSeverity = (status) => {
     switch (status) {
@@ -125,43 +173,45 @@ export default function MenuClient() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <Toast ref={toast} position="top-right" />
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Menu</h1>
+    <>
+      <div className="min-h-screen bg-gray-50 p-6">
+        <Toast ref={toast} position="top-right" />
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Menu</h1>
 
-        {isLoading ? (
-          <div className="text-center text-gray-600">Loading menu...</div>
-        ) : (
-          <>
-            <div className="flex justify-between items-center mb-6">
-              <ButtonGroup>
-                <a
-                  href="/menu/create-menu-item"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-button p-button-sm"
-                >
-                  <i className="pi pi-plus mr-2" />
-                  Add Item
-                </a>
-                <Button label="Delete" icon="pi pi-trash" className="p-button-sm p-button-danger" />
-                <Button label="Cancel" icon="pi pi-times" className="p-button-sm p-button-secondary" />
-              </ButtonGroup>
-            </div>
+          {isLoading ? (
+            <div className="text-center text-gray-600">Loading menu...</div>
+          ) : (
+            <>
+              <div className="flex justify-between items-center mb-6">
+                <ButtonGroup>
+                  <a
+                    href="/menu/create-menu-item"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-button p-button-sm"
+                  >
+                    <i className="pi pi-plus mr-2" />
+                    Add Item
+                  </a>
+                  <Button label="Delete" icon="pi pi-trash" className="p-button-sm p-button-danger" onClick={() => setClicked(true)}/>
+                  <Button label="Cancel" icon="pi pi-times" className="p-button-sm p-button-secondary" onClick={()=> setChecked(false)} />
+                </ButtonGroup>
+              </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm">
-              <DataView
-                value={products}
-                layout="list"
-                itemTemplate={itemTemplate}
-                paginator
-                rows={7}
-              />
-            </div>
-          </>
-        )}
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <DataView
+                  value={products}
+                  layout="list"
+                  itemTemplate={itemTemplate}
+                  paginator
+                  rows={7}
+                />
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
