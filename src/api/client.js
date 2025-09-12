@@ -12,6 +12,7 @@ export async function getData(params) {
     }
 }
 
+
 export async function getItem(params, id) {
     try{
         const response = await axios.get(`http://127.0.0.1:8000/${params}/get/${id}`)

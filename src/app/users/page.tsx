@@ -1,10 +1,76 @@
+'use client';
 import UserListSkeleton from '../../components/userListSkeleton';
 import { getData } from '../../api/client';
+import { useEffect, useState } from 'react';
+import { Toast } from 'primereact/toast';
 
-export default async function UsersPage() {
+export default function UsersPage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [clicked, setClicked] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [users, setUsers] = useState<any[]>([]);
+
+
+  useEffect(() => {
+      setIsLoading(true);
+      async function fetchItems() {
+        
+        try {
+        const response = await fetch('http://127.0.0.1:8000/user/get-all/');
+        const data = await response.json();
+        setUsers(data);
+        if (!users || users.length === 0){
+          return (<div className="min-h-screen bg-gray-50 p-8">
+                    <h1 className="text-xl font-bold mb-4">No Users Found</h1>
+                    <p className="text-gray-500">There are currently no users available.</p>
+                  </div>
+          )
+        }
+        } catch (error) {
+        console.error('Failed to fetch menu items:', error);
+        } finally {
+        setIsLoading(false);
+        }
+      }
   
-  let users = await getData('user');
-  await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a delay
+      fetchItems();
+    }, []);
+
+  useEffect(() => {
+      setIsLoading(true);
+      async function deleteItems() {
+        if (clicked) {
+          try {
+            const response = fetch('http://127.0.0.1:8000/menuitem/delete/', {
+              headers:{
+                'Content-Type':"application/json"
+              },
+              method: 'DELETE'
+            })
+            console.log('Items deleted successfully');
+            setChecked(false);
+            setClicked(false);
+            // Optionally, refetch items to update the list
+            //await fetchItems();
+            window.location.reload();
+          }
+          catch(error){
+            console.error('Error deleting items:', error);
+            throw new Error('Failed to delete items');
+            /*toast.current?.show({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to delete items',
+              life: 3000
+            });*/
+          }
+          finally {
+            setIsLoading(false);
+          }
+        }
+      }
+      deleteItems();
+    }, [clicked]);
       
 
   return (

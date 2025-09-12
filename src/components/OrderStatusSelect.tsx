@@ -25,7 +25,7 @@ const statusColor: Record<string, string> = {
   cancelled: 'bg-red-100 text-red-800',
 }
 
-export default async function OrderStatusSelect() {
+export default function OrderStatusSelect() {
   const [selected, setSelected] = useState(orderStatus[0]) // Default to first one
 
   const handleChange = useCallback (async (newStatus: { name: string }) => {

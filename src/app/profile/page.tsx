@@ -1,34 +1,68 @@
+'use client';
 import { PaperClipIcon } from '@heroicons/react/20/solid'
+import { useEffect, useState } from 'react';
 
-export default async function Profile() {
-  await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a delay
+
+export default function Profile() {
+  const [profile, setProfile] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+      setIsLoading(true);
+      async function fetchDetails() {
+        try {
+        const response = await fetch('http://127.0.0.1:8000/restaurants/get/1',
+        {  headers:{
+              'Content-Type':"application/json"
+            },
+            method: 'GET'
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log('Profile data:', data);
+        setProfile(data);
+        } catch (error) {
+        console.error('Failed to fetch profile details:', error);
+        } finally {
+        setIsLoading(false);
+        }
+      }
+  
+      fetchDetails();
+    }, []);
+
 
   return (
     <div>
       <div className="px-4 sm:px-0">
-        <h3 className="text-base/7 font-semibold text-gray-900">Applicant Information</h3>
-        <p className="mt-1 max-w-2xl text-sm/6 text-gray-500">Personal details and application.</p>
+        <h3 className="text-base/7 font-semibold text-gray-900">Restaurant Information</h3>
+        <p className="mt-1 max-w-2xl text-sm/6 text-gray-500">Restaurant's details.</p>
       </div>
+      {isLoading ? (
+            <div className="text-center text-gray-600">Loading Profile...</div>
+          ) : (
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900">Full name</dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Margot Foster</dd>
+            <dt className="text-sm/6 font-medium text-gray-900">Restaurant's Name</dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{profile?.name || '—'}</dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900">Application for</dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Backend Developer</dd>
+            <dt className="text-sm/6 font-medium text-gray-900">City</dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{profile?.City || '—'}</dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm/6 font-medium text-gray-900">Email address</dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">margotfoster@example.com</dd>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{profile?.Email || '—'}</dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900">Salary expectation</dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">$120,000</dd>
+            <dt className="text-sm/6 font-medium text-gray-900">Phone number</dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{profile?.phone || '—'}</dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900">About</dt>
+            <dt className="text-sm/6 font-medium text-gray-900">Description</dt>
             <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
               Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur
               qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud
@@ -36,42 +70,18 @@ export default async function Profile() {
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900">Attachments</dt>
-            <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-              <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200">
-                <li className="flex items-center justify-between py-4 pr-5 pl-4 text-sm/6">
-                  <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon aria-hidden="true" className="size-5 shrink-0 text-gray-400" />
-                    <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                      <span className="truncate font-medium">resume_back_end_developer.pdf</span>
-                      <span className="shrink-0 text-gray-400">2.4mb</span>
-                    </div>
-                  </div>
-                  <div className="ml-4 shrink-0">
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      Download
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-center justify-between py-4 pr-5 pl-4 text-sm/6">
-                  <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon aria-hidden="true" className="size-5 shrink-0 text-gray-400" />
-                    <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                      <span className="truncate font-medium">coverletter_back_end_developer.pdf</span>
-                      <span className="shrink-0 text-gray-400">4.5mb</span>
-                    </div>
-                  </div>
-                  <div className="ml-4 shrink-0">
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      Download
-                    </a>
-                  </div>
-                </li>
-              </ul>
-            </dd>
+            <dt className="text-sm/6 font-medium text-gray-900">Website</dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{profile?.Website || '—'}</dd>
           </div>
-        </dl>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm/6 font-medium text-gray-900">Hours</dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{profile?.Hours || '—'}</dd>
+          </div>
+          
+          </dl>
+          
       </div>
+      )}
     </div>
   )
 }
