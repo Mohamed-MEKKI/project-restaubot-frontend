@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <>
-    <div className="relative bg-gray-200 pt-12 pb-8">
+    <div className="relative bg-orange-400 pt-12 pb-8">
     <div className="container mx-auto px-4">
         <div className="flex flex-wrap text-left lg:text-left">
         {/* Contact & Social Section */}

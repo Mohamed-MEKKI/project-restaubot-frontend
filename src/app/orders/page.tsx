@@ -65,13 +65,13 @@ export default function Orders() {
  
   return (
     <>
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-orange-100 p-8">
       <h1 className="text-2xl font-bold mb-6">Orders</h1>
       
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {orders.map((order) => (
           <div
-            key={order.id}
+            key={order.order_id}
             className="bg-white rounded-xl shadow-md p-4 flex flex-col justify-between hover:shadow-lg transition"
           >
             
