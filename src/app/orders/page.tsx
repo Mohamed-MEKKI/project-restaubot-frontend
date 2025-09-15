@@ -2,12 +2,15 @@
 import Link from 'next/link';
 import OrderStatusSelect from '../../components/OrderStatusSelect';
 import { useEffect, useState } from 'react';
+import { Button } from 'primereact/button';
+import { ButtonGroup } from 'primereact/buttongroup';
 
 
 export default function Orders() {
   
   const [orders, setOrders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [checked, setChecked] = useState(false);
   
    useEffect(() => {
       setIsLoading(true);
@@ -65,8 +68,33 @@ export default function Orders() {
  
   return (
     <>
-    <div className="min-h-screen bg-orange-100 p-8">
-      <h1 className="text-2xl font-bold mb-6">Orders</h1>
+    <div className="min-h-screen bg-orange-100 p-5">
+      <h1 className="text-5xl font-extrabold dark:text-white p-8">Orders</h1>
+      <div className="card flex flex-row flex-nowrap mb-10 justify-center">
+        <ButtonGroup className="shadow-lg rounded-lg bg-white p-2">
+          <a
+            href="/menu/create-menu-item"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-button p-button-sm p-button-success basis-64 mx-1"
+          >
+            <i className="pi pi-plus" />
+            Add Item
+          </a>
+          <Button
+            label="Delete"
+            icon="pi pi-trash"
+            className="p-button-sm p-button-danger basis-64 mx-1"
+            onClick={() => {setClicked(false)}}
+          />
+          <Button
+            label="Cancel"
+            icon="pi pi-times"
+            className="p-button-sm p-button-secondary basis-64 mx-1"
+            onClick={() => setChecked(false)}
+          />
+        </ButtonGroup>
+      </div>
       
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {orders.map((order) => (

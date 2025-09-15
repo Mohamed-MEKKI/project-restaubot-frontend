@@ -35,14 +35,21 @@ export default function MenuClient() {
           })
         }, 1000)
     }
+    // Remove 'toast' param in a non-deprecated way
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('?toast');
+    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
     
   },[searchParams])
 
   const handleToggleSelection = (id) => {
-    setSelectedItems((prevSelected) => { 
-      if (prevSelected.includes(id)) {
-        return prevSelected.filter(item => item !== id)
-    }})
+    setSelectedItems((prevSelected) => {
+        if (prevSelected.includes(id)) {
+            return prevSelected.filter(item => item !== id);
+        } else {
+            return [...prevSelected, id];
+        }
+    });
   }
 
   useEffect(() => {
@@ -62,11 +69,11 @@ export default function MenuClient() {
 
     fetchItems();
   }, []);
-
+  
   useEffect(() => {
     setIsLoading(true);
     async function deleteItems() {
-      if (clicked) {
+      if (clicked && selectedItems.length > 0) {
         try {
           const response = fetch('http://127.0.0.1:8000/menuitem/delete/', {
             headers:{
@@ -97,7 +104,7 @@ export default function MenuClient() {
       }
     }
     deleteItems();
-  }, [clicked]);
+  }, [clicked, selectedItems]);
 
   const getSeverity = (status) => {
     switch (status) {
@@ -112,17 +119,17 @@ export default function MenuClient() {
     }
   };
 
+  // Individual item selection checkbox
   const itemTemplate = (product) => (
     <div key={product.id}
         className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 p-5 mb-5"
       >
         <div className="flex flex-col xl:flex-row gap-6 items-center xl:items-start">
           <div className="card flex justify-center bg-gray-100 rounded-lg shadow-sm p-2">
-          <Checkbox
-            onChange={(e) => setChecked(e.checked)}
-            checked={checked}
-            onClick={() => alert(`Selected: ${product.name}`)}
-          />
+            <Checkbox
+              onChange={() => handleToggleSelection(product.id)}
+              checked={Array.isArray(selectedItems) && selectedItems.includes(product.id)}
+            />
           </div>
 
           <img
@@ -169,7 +176,6 @@ export default function MenuClient() {
           </div>
         </div>
       </div>
-
   );
 
   return (
@@ -183,19 +189,29 @@ export default function MenuClient() {
             <div className="text-center text-gray-600">Loading menu...</div>
           ) : (
             <>
-              <div className="flex justify-between items-center mb-6">
-                <ButtonGroup>
+              <div className="card flex flex-row flex-nowrap mb-10 justify-center">
+                <ButtonGroup className="shadow-lg rounded-lg bg-white p-2">
                   <a
                     href="/menu/create-menu-item"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-button p-button-sm"
+                    className="p-button p-button-sm p-button-success basis-64 mx-1"
                   >
-                    <i className="pi pi-plus mr-2" />
+                    <i className="pi pi-plus" />
                     Add Item
                   </a>
-                  <Button label="Delete" icon="pi pi-trash" className="p-button-sm p-button-danger" onClick={() => setClicked(true)}/>
-                  <Button label="Cancel" icon="pi pi-times" className="p-button-sm p-button-secondary" onClick={()=> setChecked(false)} />
+                  <Button
+                    label="Delete"
+                    icon="pi pi-trash"
+                    className="p-button-sm p-button-danger basis-64 mx-1"
+                    onClick={() => {setClicked(false)}}
+                  />
+                  <Button
+                    label="Cancel"
+                    icon="pi pi-times"
+                    className="p-button-sm p-button-secondary basis-64 mx-1"
+                    onClick={() => setChecked(false)}
+                  />
                 </ButtonGroup>
               </div>
 

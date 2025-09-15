@@ -66,7 +66,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             >
-            Notus JS
+            Restobot
             </a>{" "}
             by{" "}
             <a
@@ -75,11 +75,23 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             >
-            Creative Tim
+            MEKKI
             </a>.
         </div>
         </div>
     </div>
+       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+          <svg
+            className="relative block w-full h-16"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+          >
+            <path
+              fill="#f97316"
+              d="M0,160L80,170.7C160,181,320,203,480,192C640,181,800,139,960,138.7C1120,139,1280,181,1360,202.7L1440,224L1440,320L0,320Z"
+            ></path>
+          </svg>
+        </div>
     </div>
 
     </>

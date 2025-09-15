@@ -34,7 +34,7 @@ export default function SingleMenuItemForm({ params }) {
         className="w-full max-w-lg bg-white p-8 rounded-xl shadow-md space-y-6"
         onSubmit={onSubmit}
       >
-        <h1 className="text-3xl font-semibold text-gray-800 mb-4">Edit Menu Item #{id}</h1>
+        <h1 className="text-3xl font-semibold text-gray-800 mb-4">Edit Menu Item {id}</h1>
 
         {['name', 'items', 'price', 'cuisine', 'description'].map((field) => (
           <div key={field} className="space-y-1">
