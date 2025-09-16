@@ -74,11 +74,13 @@ export default function MenuClient() {
     setIsLoading(true);
     async function deleteItems() {
       if (clicked && selectedItems.length > 0) {
+        console.log('Deleting items with IDs:', selectedItems);
         try {
           const response = fetch('http://127.0.0.1:8000/menuitem/delete/', {
             headers:{
               'Content-Type':"application/json"
             },
+            body: JSON.stringify({ids: selectedItems}),
             method: 'DELETE'
           })
           console.log('Items deleted successfully');
@@ -104,7 +106,7 @@ export default function MenuClient() {
       }
     }
     deleteItems();
-  }, [clicked, selectedItems]);
+  }, [clicked]);
 
   const getSeverity = (status) => {
     switch (status) {
@@ -204,7 +206,7 @@ export default function MenuClient() {
                     label="Delete"
                     icon="pi pi-trash"
                     className="p-button-sm p-button-danger basis-64 mx-1"
-                    onClick={() => {setClicked(false)}}
+                    onClick={() => setClicked(true)}
                   />
                   <Button
                     label="Cancel"
