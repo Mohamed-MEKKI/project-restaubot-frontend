@@ -6,8 +6,8 @@ import {
   SignUpButton,
   SignedIn,
   SignedOut,
-  RedirectToSignIn,
   UserButton,
+  useClerk,
 } from '@clerk/nextjs'
 
 const navigation = [
@@ -22,6 +22,8 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+   
+
   return (
       <Disclosure as="nav" className="relative bg-green-900">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 p-8">
@@ -44,6 +46,8 @@ export default function Header() {
                   src="/restaubot_logo.png"
                   className="h-8 w-auto lg:block"
                 />
+              </div>
+              <div>
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
@@ -86,6 +90,7 @@ export default function Header() {
               <SignedIn>
                 <UserButton />
               </SignedIn>
+              
             </div>
           </div>
         </div>

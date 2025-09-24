@@ -1,6 +1,5 @@
 "use client";
 
-import { RedirectToSignIn, RedirectToSignUp, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 import BentoGrids from "../components/BentoGrids";
 
@@ -17,16 +16,14 @@ export default function HomePage() {
           Powerful AI tool to help you build, grow, and retain users. No complications, no hassle.
         </p>
         <div className="space-x-4">
-          <Link href="/sign-in" className="px-6 py-3 bg-orange-600 text-white rounded-xl hover:bg-blue-700">
+          <Link href="/sign-up" className="px-6 py-3 bg-orange-600 text-white rounded-xl hover:bg-blue-700">
             Get Started
           </Link>
           <Link href="/about" className="px-6 py-3 border border-gray-300 rounded-xl hover:bg-gray-100">
               
             Learn More
           </Link>
-          <SignedOut>
-            <RedirectToSignUp />
-          </SignedOut>
+         
         </div>
       </section>
 
@@ -50,12 +47,11 @@ export default function HomePage() {
       <section className="py-20 px-6 bg-green-600 text-white text-center">
         <h2 className="text-3xl font-bold mb-4">Ready to grow your Buisness?</h2>
         <p className="mb-6 text-lg">Start for free. No credit card required.</p>
-        <button className="px-8 py-4 bg-white text-blue-600 rounded-xl font-medium hover:bg-gray-100">     
-          <span className="text-blue-600">Sign Up Now</span>
-          <SignedOut>
-            <RedirectToSignUp />
-          </SignedOut>
-        </button>
+        <Link href="/sign-up" className="inline-block">
+          <button className="px-8 py-4 bg-white text-blue-600 rounded-xl font-medium hover:bg-gray-100">
+            <span className="text-blue-600">Sign Up Now</span>
+          </button>
+        </Link>
       </section>
 
       {/* Footer */}

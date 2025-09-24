@@ -22,7 +22,6 @@ const geistMono = Geist_Mono({
 })
 
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,11 +30,17 @@ export default function RootLayout({
   const pathname = usePathname()
   const hideHeaderOn = ['/'];
   const shouldShowHeader = !hideHeaderOn.includes(pathname);
+  const verifyPathname = () => {
+    if (pathname !== '/sign-in' && pathname !== '/sign-up' && pathname !== '/profile' && pathname !== '/about' ) {
+      return true;
+    }
+    return false;
+  }
   return (
     
     <>
       <ClerkProvider>
-      {shouldShowHeader && <Header/>}
+      {shouldShowHeader && verifyPathname() == true && <Header/> }
         
         <html lang="en">
 
@@ -49,7 +54,7 @@ export default function RootLayout({
 
         </html>
         
-      {shouldShowHeader && <Footer />}
+      {shouldShowHeader && verifyPathname() == true && <Footer /> }
       </ClerkProvider>
     </>
 
