@@ -1,11 +1,7 @@
-import { SignIn, ClerkProvider } from '@clerk/nextjs'
+import {SignIn, ClerkProvider } from '@clerk/nextjs'
 
 export default function SignInPage() {
   
-  await clerk.redirectToSignIn({
-    signInForceRedirectUrl: '/dashboard',
-    signUpForceRedirectUrl: '/dashboard',
-  })
   return (
     <>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-100 via-red-50 to-orange-100 relative overflow-hidden">
@@ -19,6 +15,8 @@ export default function SignInPage() {
           {/* SignUp component */}
           <div className="shadow-lg rounded-2xl p-8 bg-white border border-gray-200 mb-8">
             <SignIn
+              signUpFallbackRedirectUrl="/dashboard"
+              forceRedirectUrl='/dashboard'
               appearance={{
                 elements: {
                   formButtonPrimary:

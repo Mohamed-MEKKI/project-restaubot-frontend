@@ -14,6 +14,7 @@ export default function SignUpPage() {
       {/* SignUp component */}
       <div className="shadow-lg rounded-2xl p-8 bg-white border border-gray-200 mb-8">
         <SignUp
+          forceRedirectUrl='/dashboard'
           appearance={{
             elements: {
               formButtonPrimary:

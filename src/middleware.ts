@@ -11,13 +11,15 @@ export default clerkMiddleware(async (auth, req) => {
   isProtectedRoute(req) && 
   !(has({ permission: 'org:admin:example1' }) || has({ permission: 'org:admin:example2' }))) {
   return redirectToSignIn();
-}
-if (!isPublicRoute(req)) {
-  await auth.protect()
+  }
+  if (!isPublicRoute(req)) {
+    await auth.protect()
 
-}
+  }
   
 })
+
+
 
 export const config = {
   matcher: [

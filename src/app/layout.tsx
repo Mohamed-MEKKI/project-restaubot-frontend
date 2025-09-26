@@ -31,7 +31,7 @@ export default function RootLayout({
   const hideHeaderOn = ['/'];
   const shouldShowHeader = !hideHeaderOn.includes(pathname);
   const verifyPathname = () => {
-    if (pathname !== '/sign-in' && pathname !== '/sign-up' && pathname !== '/profile' && pathname !== '/about' ) {
+    if (pathname !== '/sign-in' && pathname !== '/sign-up' && pathname !== '/profile' && pathname !== '/about' && pathname !== '/contact' ) {
       return true;
     }
     return false;

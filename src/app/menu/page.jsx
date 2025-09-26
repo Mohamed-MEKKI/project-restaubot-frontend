@@ -130,12 +130,12 @@ export default function MenuClient() {
           <div className="card flex justify-center bg-gray-100 rounded-lg shadow-sm p-2">
             <Checkbox
               onChange={() => handleToggleSelection(product.id)}
-              checked={Array.isArray(selectedItems) && selectedItems.includes(product.id)}
+              checked={selectedItems.includes(product.id)}
             />
           </div>
 
           <img
-            src={`http://localhost:8000${product.image}`}
+            src={product.image ? `http://localhost:8000${product.image}` : '/default-image.png'}
             alt={product.name}
             className="w-28 h-28 object-cover rounded-lg shadow-sm"
           />
@@ -144,7 +144,7 @@ export default function MenuClient() {
             {/* Product Info */}
             <div className="flex flex-col gap-2">
               <h2 className="text-lg font-semibold text-gray-800">{product.name}</h2>
-              <Rating value={product.rating} readOnly cancel={false} />
+              <Rating value={product.rating ?? 0} readOnly cancel={false} />
               <div className="flex items-center gap-3 text-sm text-gray-600">
                 <span className="flex items-center gap-1">
                   <i className="pi pi-tag" />
@@ -165,14 +165,10 @@ export default function MenuClient() {
                   icon="pi pi-shopping-cart"
                   className="p-button-sm p-button-rounded p-button-text"
                   disabled={product.inventory_status === 'OUTOFSTOCK'}
+                  onClick={() => window.location.href = `/menu/${product.id}`}
+                  aria-label={`View details for ${product.name}`}
                 />
-                <Link
-                  href={`/menu/${product.id}`}
-                  icon="pi pi-eye"
-                  className="p-button p-button-sm p-button-primary p-button-rounded"
-                >
-                  View
-                </Link>
+          
               </div>
             </div>
           </div>
@@ -191,23 +187,26 @@ export default function MenuClient() {
             <div className="text-center text-gray-600">Loading menu...</div>
           ) : (
             <>
-              <div className="card flex flex-row flex-nowrap mb-10 justify-center">
+              <div className="card flex flex-row flex-nowrap mb-10 justify-center p-8">
                 <ButtonGroup className="shadow-lg rounded-lg bg-white p-2">
-                  <a
-                    href="/menu/create-menu-item"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-button p-button-sm p-button-success basis-64 mx-1"
-                  >
-                    <i className="pi pi-plus" />
-                    Add Item
-                  </a>
+                  <Link
+                  href={"/menu/create-menu-item"}
+                  className="p-button p-button-sm p-button-primary p-button-rounded"
+                    >
+                      <Button
+                        label="Add Item"
+                        icon="pi pi-plus"
+                        className="p-button-sm p-button-danger basis-64 mx-1"
+                       
+                      />
+                  </Link>
                   <Button
                     label="Delete"
                     icon="pi pi-trash"
                     className="p-button-sm p-button-danger basis-64 mx-1"
                     onClick={() => setClicked(true)}
                   />
+                  
                   <Button
                     label="Cancel"
                     icon="pi pi-times"

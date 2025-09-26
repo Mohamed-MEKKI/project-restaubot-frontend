@@ -72,15 +72,6 @@ export default function Orders() {
       <h1 className="text-5xl font-extrabold dark:text-white p-8">Orders</h1>
       <div className="card flex flex-row flex-nowrap mb-10 justify-center">
         <ButtonGroup className="shadow-lg rounded-lg bg-white p-2">
-          <a
-            href="/menu/create-menu-item"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-button p-button-sm p-button-success basis-64 mx-1"
-          >
-            <i className="pi pi-plus" />
-            Add Item
-          </a>
           <Button
             label="Delete"
             icon="pi pi-trash"
@@ -96,7 +87,7 @@ export default function Orders() {
         </ButtonGroup>
       </div>
       
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 p-10">
         {orders.map((order) => (
           <div
             key={order.order_id}
