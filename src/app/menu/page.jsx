@@ -8,7 +8,7 @@ import { ButtonGroup } from 'primereact/buttongroup';
 import { Tag } from 'primereact/tag';
 import { Toast } from 'primereact/toast';
 import { Rating } from 'primereact/rating';
-import {useSearchParams} from 'next/navigation';
+//import {useSearchParams} from 'next/navigation';
 import Link from 'next/link';
 import React from 'react';
 
@@ -19,10 +19,10 @@ export default function MenuClient() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([])
   const toast = useRef(null)
-  const searchParams = useSearchParams();
+  //const searchParams = useSearchParams();
 
   
-  useEffect(() => {
+  /*useEffect(() => {
     const toastType = searchParams.get('toast')
 
     if (toastType === 'success'){
@@ -40,7 +40,7 @@ export default function MenuClient() {
     params.delete('?toast');
     window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
     
-  },[searchParams])
+  },[searchParams])*/
 
   const handleToggleSelection = (id) => {
     setSelectedItems((prevSelected) => {
@@ -51,6 +51,14 @@ export default function MenuClient() {
         }
     });
   }
+
+  useEffect(()=>{
+    if (checked){
+      setSelectedItems([])
+    }
+    setChecked(false);
+  },[checked]);
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -134,7 +142,7 @@ export default function MenuClient() {
             />
           </div>
 
-          <img
+          <Image
             src={product.image ? `http://localhost:8000${product.image}` : '/default-image.png'}
             alt={product.name}
             className="w-28 h-28 object-cover rounded-lg shadow-sm"
@@ -211,7 +219,7 @@ export default function MenuClient() {
                     label="Cancel"
                     icon="pi pi-times"
                     className="p-button-sm p-button-secondary basis-64 mx-1"
-                    onClick={() => setChecked(false)}
+                    onClick={() => setChecked(true)}
                   />
                 </ButtonGroup>
               </div>

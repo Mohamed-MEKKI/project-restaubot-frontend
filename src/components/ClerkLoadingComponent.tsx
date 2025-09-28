@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-export default function clerkLoadingComponent() {
+export default function ClerkLoadingComponent() {
   return (
     <>
       <ClerkLoading>

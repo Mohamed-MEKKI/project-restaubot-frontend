@@ -1,5 +1,6 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import Image from 'next/image';
 import {
   ClerkProvider,
   SignInButton,
@@ -40,13 +41,15 @@ export default function Header() {
 
             {/* Logo + navigation */}
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-              <div className="flex shrink-0 items-center">
-                <img
+                <div className="flex shrink-0 items-center">
+                <Image
                   alt="Restobot"
                   src="/restaubot_logo.png"
-                  className="h-8 w-auto lg:block"
+                  className="h-8 lg:block"
+                  width={120}
+                  height={32}
                 />
-              </div>
+                </div>
               <div>
               </div>
               <div className="hidden sm:ml-6 sm:block">

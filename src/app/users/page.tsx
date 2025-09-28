@@ -3,6 +3,8 @@ import UserListSkeleton from '../../components/userListSkeleton';
 import { getData } from '../../api/client';
 import { useEffect, useState } from 'react';
 import { Toast } from 'primereact/toast';
+import Image from 'next/image';
+
 
 export default function UsersPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -19,13 +21,13 @@ export default function UsersPage() {
         const response = await fetch('http://127.0.0.1:8000/user/get-all/');
         const data = await response.json();
         setUsers(data);
-        if (!users || users.length === 0){
+        /*if (!users || users.length === 0){
           return (<div className="min-h-screen bg-gray-50 p-8">
                     <h1 className="text-xl font-bold mb-4">No Users Found</h1>
                     <p className="text-gray-500">There are currently no users available.</p>
                   </div>
           )
-        }
+        }*/
         } catch (error) {
         console.error('Failed to fetch menu items:', error);
         } finally {
@@ -84,7 +86,7 @@ export default function UsersPage() {
               key={user.user_id}
               className="p-4 bg-white rounded-xl shadow flex items-center"
             >
-              <img
+              <Image
                 src={`http://localhost:8000${user.image}`}
                 alt={user.name}
                 className="w-12 h-12 rounded-full mr-4"

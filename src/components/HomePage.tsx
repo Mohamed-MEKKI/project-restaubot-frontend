@@ -2,7 +2,7 @@
 import Link from "next/link"
 import BentoGrids from "./BentoGrids"
 import { useEffect, useState } from "react";
-
+import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
@@ -26,7 +26,7 @@ export default function HomePage (){
       <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center bg-gradient-to-br from-blue-50 to-orange-100">
         <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
           Manage you customers orders faster with 
-          <img src="restaubot_logo.png" alt="Restobot Logo" className="inline-block h-12 w-auto ml-2" />
+          <Image src="/restaubot_logo.png" alt="Restobot Logo" className="inline-block h-12 w-auto ml-2" width={120} height={32} />
         </h1>
         <p className="text-lg md:text-xl text-orange-600 max-w-xl mb-6 font-sans">
           Powerful AI tool to help you build, grow, and retain users. No complications, no hassle.

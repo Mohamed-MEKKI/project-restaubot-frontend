@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function bentoGrids() {
   return (
     <div className="bg-gray-50 py-24 sm:py-32 dark:bg-gray-900">
@@ -20,10 +22,12 @@ export default function bentoGrids() {
               </div>
               <div className="@container relative min-h-120 w-full grow max-lg:mx-auto max-lg:max-w-sm">
                 <div className="absolute inset-x-10 top-10 bottom-0 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl dark:shadow-none dark:outline dark:outline-white/20">
-                  <img
+                  <Image
                     alt=""
                     src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-mobile-friendly.png"
                     className="size-full object-cover object-top"
+                    width={120}
+                    height={32}
                   />
                 </div>
               </div>
@@ -42,15 +46,19 @@ export default function bentoGrids() {
                 </p>
               </div>
               <div className="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
-                <img
+                <Image
                   alt=""
                   src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-performance.png"
                   className="w-full max-lg:max-w-xs dark:hidden"
+                  width={120}
+                  height={32}
                 />
-                <img
+                <Image
                   alt=""
                   src="https://tailwindcss.com/plus-assets/img/component-images/dark-bento-03-performance.png"
                   className="w-full not-dark:hidden max-lg:max-w-xs"
+                  width={120}
+                  height={32}
                 />
               </div>
             </div>
@@ -68,15 +76,19 @@ export default function bentoGrids() {
                 </p>
               </div>
               <div className="@container flex flex-1 items-center max-lg:py-6 lg:pb-2">
-                <img
+                <Image
                   alt=""
                   src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-security.png"
                   className="h-[min(152px,40cqw)] object-cover dark:hidden"
+                  width={120}
+                  height={32}
                 />
-                <img
+                <Image
                   alt=""
                   src="https://tailwindcss.com/plus-assets/img/component-images/dark-bento-03-security.png"
                   className="h-[min(152px,40cqw)] object-cover not-dark:hidden"
+                  width={120}
+                  height={32}
                 />
               </div>
             </div>

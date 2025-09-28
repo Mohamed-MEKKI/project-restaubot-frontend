@@ -71,7 +71,7 @@ export default function Orders() {
     <div className="min-h-screen bg-orange-100 p-5">
       <h1 className="text-5xl font-extrabold dark:text-white p-8">Orders</h1>
       <div className="card flex flex-row flex-nowrap mb-10 justify-center">
-        <ButtonGroup className="shadow-lg rounded-lg bg-white p-2">
+        <ButtonGroup>
           <Button
             label="Delete"
             icon="pi pi-trash"

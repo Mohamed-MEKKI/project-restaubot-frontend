@@ -1,19 +1,23 @@
 import AdminComponent from '../../components/AdminComponent';
 import { MessageCircleIcon, ShoppingCartIcon, Hamburger, ChartNoAxesCombined } from "lucide-react";
+import Image from 'next/image';
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <>
       <div className="bg-orange-100 min-h-screen p-6">
         <div className="max-w-7xl mx-auto bg-[url(/.svg)] bg-center bg-repeat-y ...">
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-red-800 font-mono text-5xl text-center">Welcome to <img src="restaubot_logo.png" alt="Restobot Logo" className="inline-block h-12 w-auto ml-2" />🍔</h1>
+            <h1 className="text-2xl font-bold text-red-800 font-mono text-5xl text-center">Welcome to <Image src="/restaubot_logo.png" alt="Restobot Logo" className="inline-block h-12 w-auto ml-2" width={120}
+                  height={32}/>🍔</h1>
 
           </div>
           
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
 
-            <a 
+            <Link 
             href="/menu" 
             className="block bg-yellow-500 p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition transform duration-200"
           >
@@ -25,8 +29,8 @@ export default function Home() {
             <span className="text-sm text-red-600 flex items-center">
               🔽 -1.2% vs yesterday
             </span>
-          </a>
-            <a 
+          </Link>
+            <Link
             href="/orders" 
             className="block bg-yellow-500 p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition transform duration-200"
           >
@@ -38,7 +42,7 @@ export default function Home() {
             <span className="text-sm text-red-600 flex items-center">
               🔽 -1.2% vs yesterday
             </span>
-          </a>
+          </Link>
             
             <a 
             href="/analytics" 

@@ -6,7 +6,7 @@ export default function Footer() {
         <div className="flex flex-wrap text-left lg:text-left">
         {/* Contact & Social Section */}
         <div className="w-full lg:w-6/12 px-4 mb-8 lg:mb-0">
-            <h4 className="text-3xl font-semibold text-gray-800">Let's keep in touch!</h4>
+            <h4 className="text-3xl font-semibold text-gray-800">Let&apos;s keep in touch!</h4>
             <p className="text-lg mt-2 mb-4 text-gray-600">
             Find us on any of these platforms. We respond within 1–2 business days.
             </p>

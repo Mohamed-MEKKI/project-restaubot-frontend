@@ -17,7 +17,7 @@ export default function Profile() {
       {/* Header */}
       <div className="px-4 sm:px-0">
         <h3 className="text-lg font-semibold text-gray-900">Restaurant Information</h3>
-        <p className="mt-1 text-sm text-gray-500">Manage your restaurant's details.</p>
+        <p className="mt-1 text-sm text-gray-500">Manage your restaurant &apos;s details.</p>
       </div>
 
       {/* Content */}

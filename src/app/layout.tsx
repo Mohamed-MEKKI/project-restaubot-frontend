@@ -8,7 +8,7 @@ import 'primeicons/primeicons.css';
 
 import './globals.css'
 import Footer from "../components/footer"
-import Header from '../components/header'
+import Header from '../components/Header'
 import { usePathname } from 'next/navigation'
 
 const geistSans = Geist({
