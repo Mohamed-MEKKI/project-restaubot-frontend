@@ -24,12 +24,11 @@ export default function bentoGrids() {
                 <div className="absolute inset-x-10 top-10 bottom-0 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl dark:shadow-none dark:outline dark:outline-white/20">
                   <Image
                     alt=""
-                    src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-mobile-friendly.png"
+                    src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-mobile.png"
                     className="size-full object-cover object-top"
                     width={120}
                     height={32}
                   />
-                </div>
               </div>
             </div>
             <div className="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-black/5 lg:rounded-l-4xl dark:outline-white/15" />
@@ -123,6 +122,7 @@ export default function bentoGrids() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

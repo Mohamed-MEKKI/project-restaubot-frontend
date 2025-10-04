@@ -68,35 +68,37 @@ export default function MenuItemForm({ params }) {
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6 flex items-center justify-center">
-      <div className="w-full max-w-xl bg-white p-8 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Create New Menu Item</h1>
+  <>
+    <div className="bg-orange-100 min-h-screen p-6">
+      <h1 className="text-5xl font-extrabold dark:text-white p-8">Create New Menu Item</h1>
 
+      <div className="w-full max-w-xl bg-orange-400 p-8 rounded-lg shadow-md mx-auto flex flex-col items-center ">
         <form className="space-y-5" onSubmit={onSubmit} noValidate>
           {['name', 'price', 'cuisine', 'description'].map((field) => (
             <div key={field}>
-              <label className="block text-sm font-medium text-gray-700 capitalize">
+              <label  className="block text-sm font-semibold text-primary-600 dark:text-primary-400 tracking-wide mb-1 capitalize text-xl">
                 {field}
               </label>
               <input
                 type="text"
                 name={field}
                 placeholder={`Enter ${field}`}
-                className="mt-1 block w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="mt-1 block w-full text-xl border bg-white border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
               {errors[field] && <Message severity="error" text={errors[field]} />}
             </div>
           ))}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Image</label>
+            <label  className="block text-sm font-semibold text-primary-600 dark:text-primary-400 tracking-wide mb-1 capitalize text-xl">image</label>
             <input
               type="file"
               name="image"
               accept="image/*"
-              className="mt-1 block w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="mt-1 block w-full bg-black text-gray-400 border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
-            <Message severity="error" text="Image error" />
+            {errors['image'] && <Message severity="error" text={errors['image']} />}
+
           </div>
 
           <Toast ref={toastRef} position="top-right" />
@@ -104,7 +106,7 @@ export default function MenuItemForm({ params }) {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors ${
+            className={`w-full bg-red-600 text-white font-semibold px-4 py-2 rounded-lg transition-colors ${
               isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
             }`}
           >
@@ -113,5 +115,6 @@ export default function MenuItemForm({ params }) {
         </form>
       </div>
     </div>
+  </>
   );
 }

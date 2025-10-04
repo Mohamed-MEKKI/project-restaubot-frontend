@@ -11,6 +11,8 @@ export default function ProductComponent(){
                   alt="Restobot"
                   src="/restaubot_logo.png"
                   className="h-8 w-auto lg:block"
+                  width={180}
+                  height={60}
                 /></h1>
             <p className="mt-3 text-lg text-gray-800 dark:text-neutral-400">Hand-picked professionals and expertly crafted components, designed for any kind of entrepreneur.</p>
 

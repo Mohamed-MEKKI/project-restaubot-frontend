@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/components/datafetcher.js", "src/app/menu/page.jsx"  ],
+, "src/components/datafetcher.js", "src/app/menu/page.tsx"  ],
   "exclude": [
     "node_modules"
   ]

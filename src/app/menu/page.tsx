@@ -8,6 +8,8 @@ import { ButtonGroup } from 'primereact/buttongroup';
 import { Tag } from 'primereact/tag';
 import { Toast } from 'primereact/toast';
 import { Rating } from 'primereact/rating';
+import ShowNotifsComponent from '../../components/ShowNotifsComponent';
+import Image from 'next/image';
 //import {useSearchParams} from 'next/navigation';
 import Link from 'next/link';
 import React from 'react';
@@ -18,29 +20,10 @@ export default function MenuClient() {
   const [clicked, setClicked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState([])
+  const [actionResult, setActionResult] = useState<{ status: string, message:string} | null>(null);
   const toast = useRef(null)
-  //const searchParams = useSearchParams();
-
   
-  /*useEffect(() => {
-    const toastType = searchParams.get('toast')
-
-    if (toastType === 'success'){
-        setTimeout(() => {
-            toast.current?.show({
-              severity: 'success',
-              summary: 'Success',
-              detail : 'Item updated successfully ! ',
-              life: 3000
-          })
-        }, 1000)
-    }
-    // Remove 'toast' param in a non-deprecated way
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete('?toast');
-    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
-    
-  },[searchParams])*/
+  
 
   const handleToggleSelection = (id) => {
     setSelectedItems((prevSelected) => {
@@ -51,6 +34,11 @@ export default function MenuClient() {
         }
     });
   }
+
+  useEffect(()=>{
+    if (actionResult) ShowNotifsComponent(actionResult, toast)
+  })
+
 
   useEffect(()=>{
     if (checked){
@@ -145,7 +133,9 @@ export default function MenuClient() {
           <Image
             src={product.image ? `http://localhost:8000${product.image}` : '/default-image.png'}
             alt={product.name}
-            className="w-28 h-28 object-cover rounded-lg shadow-sm"
+            className="object-cover rounded-lg shadow-sm"
+            width={240}
+            height={200}
           />
 
           <div className="flex flex-col xl:flex-row justify-between w-full gap-4 xl:gap-0">
