@@ -15,7 +15,8 @@ export async function getData(params) {
 
 export async function getItem(params, id) {
     try{
-        const response = await axios.get(`http://127.0.0.1:8000/${params}/get/${id}`)
+        const response = await axios.get(`http://127.0.0.1:8000/${params}/get_one_item/${id}`)
+        console.log(response.data);
         return response.data
     }catch(error){
         console.error(error)
@@ -46,7 +47,7 @@ export async function postItem(params, form) {
 
 export async function putData(params, item_id, newStatus) {
     try{
-        const response = await axios.put(`http://127.0.0.1:8000/${params}/update/${item_id}`,{status:newStatus})
+        const response = await axios.put(`http://127.0.0.1:8000/${params}/update_status/${item_id}`,{status:newStatus})
         return response.data
     }catch(error){
         console.error(error)

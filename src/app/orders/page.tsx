@@ -96,9 +96,9 @@ export default function Orders() {
             
               <div className="flex justify-between items-center mb-2">
                 <Link href={`/orders/${order.order_id}`} className="space-y-1">
-                <span className="text-sm text-gray-500">{order.items}</span>
+                <span className="text-sm text-gray-500">{order.menu_item}</span>
                 </Link>
-                <OrderStatusSelect />
+                <OrderStatusSelect orderId={order.order_id } currentStatus={order.status} />
               </div>
             
             <h2 className="text-lg font-semibold">{order.image}</h2>
@@ -112,6 +112,7 @@ export default function Orders() {
             </div>
             <div className="flex space-x-4 ml-auto">
                 {/* Modify Button */}
+                <Link href={`/order/${order.order_id}`}>
                 <button
                   
                   className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 flex items-center space-x-2"
@@ -119,6 +120,7 @@ export default function Orders() {
                   <i className="fas fa-edit"></i>
                   <span>Modify</span>
                 </button>
+                </Link>
 
                 {/* Delete Button */}
                 <button

@@ -9,7 +9,7 @@ import {
 } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 import { CheckIcon } from '@heroicons/react/20/solid'
-import { putData } from '../api/client'
+import { getItem, putData } from '../api/client'
 
 const orderStatus = [
   { name: 'pending' },
@@ -25,14 +25,25 @@ const statusColor: Record<string, string> = {
   cancelled: 'bg-red-100 text-red-800',
 }
 
-export default function OrderStatusSelect() {
-  const [selected, setSelected] = useState(orderStatus[0]) // Default to first one
+interface Status {
+  name: string
+}
+
+interface OrderStatusSelectProps {
+  orderId: string
+  currentStatus?: string // 👈 make optional in case order data isn't ready
+}
+
+
+export default function OrderStatusSelect({orderId, currentStatus}: OrderStatusSelectProps) {
+  console.log('Current status:', currentStatus)
+  console.log('Order ID:', orderId)
+  const [selected, setSelected] = useState<Status>({name: currentStatus ?? 'pending'}) // Default to first one
 
   const handleChange = useCallback (async (newStatus: { name: string }) => {
     setSelected(newStatus)
     console.log('Selected status:', newStatus.name)
-   
-    await putData('order', 1, newStatus.name) // Call your API here
+    await putData('order', orderId, newStatus.name) // Call your API here
     console.log('✅ Order status updated:', newStatus.name)
   
   }, [])

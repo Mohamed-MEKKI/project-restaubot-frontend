@@ -3,6 +3,8 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState, useRef } from 'react';
 import { Message } from 'primereact/message';
 import { Toast } from 'primereact/toast';
+import { Validate } from '../../../utils/utilsFunctions';
+
 
 export default function MenuItemForm({ params }) {
   const { id } = params;
@@ -13,15 +15,7 @@ export default function MenuItemForm({ params }) {
 
   const requiredFields = ['name', 'price', 'cuisine', 'description', 'image'];
 
-  const validate = (formData) => {
-    return requiredFields.reduce((acc, field) => {
-      const value = formData.get(field);
-      if (!value || (field === 'image' && value.size === 0)) {
-        acc[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
-      }
-      return acc;
-    }, {});
-  };
+  const validate = (formData) => Validate(requiredFields, formData);
 
   const showToast = (summary, detail, severity = 'error') => {
     setTimeout(() => {

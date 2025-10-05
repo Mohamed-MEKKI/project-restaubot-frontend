@@ -55,7 +55,8 @@ export default function OrderForm({ params }) {
   return (
   <>
     <div className="bg-gray-100 min-h-screen p-6">
-      <h1 className="text-2xl font-bold mb-6">Create new order</h1>
+      <h1 className="text-5xl font-extrabold dark:text-white p-8">Create new order</h1>
+
       <form className="space-y-4 bg-white p-6 rounded-lg shadow" onSubmit={onSubmit} noValidate>
         
        

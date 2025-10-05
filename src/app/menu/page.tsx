@@ -186,7 +186,7 @@ export default function MenuClient() {
           ) : (
             <>
               <div className="card flex flex-row flex-nowrap mb-10 justify-center p-8">
-                <ButtonGroup className="shadow-lg rounded-lg bg-white p-2">
+                <ButtonGroup>
                   <Link
                   href={"/menu/create-menu-item"}
                   className="p-button p-button-sm p-button-primary p-button-rounded"
