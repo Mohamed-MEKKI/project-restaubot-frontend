@@ -1,6 +1,7 @@
 'use client';
-import UserListSkeleton from '../../components/userListSkeleton';
-import { getData } from '../../api/client';
+
+import UserListSkeleton from '@/components/userListSkeleton';
+import { getData } from '@/api/client';
 import { useEffect, useState } from 'react';
 import { Toast } from 'primereact/toast';
 import Image from 'next/image';

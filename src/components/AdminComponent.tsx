@@ -1,4 +1,4 @@
-import { checkRole } from "../utils/roles"
+import { checkRole } from '@/utils/roles';
 import { ShieldUser } from "lucide-react";
 
 export default async function AdminComponent() {

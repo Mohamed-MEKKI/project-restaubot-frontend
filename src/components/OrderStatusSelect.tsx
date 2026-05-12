@@ -9,7 +9,7 @@ import {
 } from '@headlessui/react'
 import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 import { CheckIcon } from '@heroicons/react/20/solid'
-import { getItem, putData } from '../api/client'
+import { getItem, putData } from '@/api/client';
 
 const orderStatus = [
   { name: 'pending' },

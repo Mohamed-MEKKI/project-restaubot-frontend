@@ -3,7 +3,8 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState, useRef } from 'react';
 import { Message } from 'primereact/message';
 import { Toast } from 'primereact/toast';
-import { Validate } from '../../../utils/utilsFunctions';
+import { MenuItemForm as MenuItemFormComponent } from '@/components/MenuItemForm';
+import { Validate } from '@/utils/utilsFunctions';
 
 
 export default function MenuItemForm({ params }) {
@@ -60,7 +61,10 @@ export default function MenuItemForm({ params }) {
       setIsLoading(false);
     }
   }
-
+  return (
+    <MenuItemFormComponent onBack={() => router.push('/dashboard')} />
+  )
+  /*
   return (
   <>
     <div className="bg-orange-100 min-h-screen p-6">
@@ -110,5 +114,5 @@ export default function MenuItemForm({ params }) {
       </div>
     </div>
   </>
-  );
+  );*/
 }

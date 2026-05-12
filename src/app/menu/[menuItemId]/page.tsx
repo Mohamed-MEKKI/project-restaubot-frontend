@@ -2,9 +2,8 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { FormEvent, use, useState } from 'react';
-import { getItem } from '../../../api/client';
 import { Message } from 'primereact/message';
-import { Validate } from '../../../utils/utilsFunctions';
+import { Validate } from '@/utils/utilsFunctions';
 
 
 export default function SingleMenuItemForm() {
@@ -48,15 +47,18 @@ export default function SingleMenuItemForm() {
   }
 
   return (
-    <div className="bg-orange-100 min-h-screen p-6 flex justify-center items-start">
+    <div className="bg-orange-100 min-h-screen p-6">
+
+      <h1 className="text-5xl font-extrabold dark:text-white p-8">Edit Menu Item         
+          &nbsp;<span className="text-red-600">{decodeURIComponent(parm.menuItemId)}</span>
+      </h1>
+      
+    <div className="w-full max-w-xl bg-orange-400 p-8 rounded-lg shadow-md mx-auto flex flex-col items-center ">
       <form
         className="w-full max-w-lg bg-white p-8 rounded-xl shadow-md space-y-6"
         onSubmit={onSubmit}
         noValidate
       >
-        <h1 className="text-3xl font-semibold text-gray-800 mb-4">Edit Menu Item         
-          <span className="text-blue-600">{parm.menuItemId}</span>
-        </h1>
 
         {['name', 'cuisine', 'price', 'inventory_status', 'description'].map((field) => (
           <div key={field} className="space-y-1">
@@ -95,11 +97,12 @@ export default function SingleMenuItemForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
+          className="w-full bg-yellow-600 text-white py-2 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
         >
           {isLoading ? 'Submitting...' : 'Submit'}
         </button>
       </form>
+      </div>
     </div>
   );
 }

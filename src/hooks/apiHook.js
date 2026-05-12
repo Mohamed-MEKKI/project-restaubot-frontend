@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../api/apiService';
+import api from '@/api/apiClient';
 
 const useApi = (url) => {
   const [data, setData] = useState(null);
