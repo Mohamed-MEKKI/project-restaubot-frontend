@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { useAuth } from '@clerk/clerk-react';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 
 interface FormErrors {
@@ -21,6 +22,7 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const { getToken, isLoaded, isSignedIn } = useAuth();
 
   const requiredFields = ['name', 'price', 'cuisine', 'description', 'image'];
 
@@ -70,7 +72,16 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
     setErrors({});
 
     try {
+      if (!isLoaded || !isSignedIn) {
+        toast.error('You must be signed in to create a menu item');
+        setIsLoading(false);
+        return;
+      }
+      const token = await getToken();
       const response = await fetch('http://127.0.0.1:8000/menuitem/create/', {
+        headers: {
+          'authorization':`Bearer ${token}`,
+        },
         method: 'POST',
         body: formData,
       });

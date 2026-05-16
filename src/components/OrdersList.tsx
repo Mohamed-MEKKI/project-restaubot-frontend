@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@clerk/clerk-react'  
+
 import {
   Select,
   SelectContent,
@@ -54,6 +56,7 @@ export function OrdersList({ onBack, onViewDetails }: OrdersListProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState<number | null>(null);
   const [updatingStatus, setUpdatingStatus] = useState<number | null>(null);
+  const { getToken, isLoaded, isSignedIn } = useAuth()
 
   useEffect(() => {
     fetchOrders();
@@ -61,8 +64,18 @@ export function OrdersList({ onBack, onViewDetails }: OrdersListProps) {
 
   const fetchOrders = async () => {
     setIsLoading(true);
+    if (!isLoaded || !isSignedIn) return
+
     try {
-      const response = await fetch('http://127.0.0.1:8000/order/get-all/');
+      const token = await getToken()
+      const response = await fetch('http://127.0.0.1:8000/order/get-all/',
+        {
+          headers: {
+          'authorization':`Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }
+        }
+      );
       const data = await response.json();
       setOrders(data);
     } catch (error) {
@@ -76,9 +89,11 @@ export function OrdersList({ onBack, onViewDetails }: OrdersListProps) {
   const handleStatusChange = useCallback(async (orderId: number, newStatus: string) => {
     setUpdatingStatus(orderId);
     try {
+      const token = await getToken()
       const response = await fetch(`http://127.0.0.1:8000/order/update/${orderId}`, {
         method: 'PUT',
         headers: {
+          'authorization':`Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ status: newStatus }),
@@ -107,9 +122,11 @@ export function OrdersList({ onBack, onViewDetails }: OrdersListProps) {
     if (!orderToDelete) return;
 
     try {
+      const token = await getToken()
       const response = await fetch(`http://127.0.0.1:8000/order/delete/${orderToDelete}`, {
         method: 'DELETE',
         headers: {
+          'authorization':`Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });

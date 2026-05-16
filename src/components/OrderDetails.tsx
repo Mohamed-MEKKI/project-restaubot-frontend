@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
+import { useAuth } from '@clerk/clerk-react';
 import { toast } from 'sonner';
 
 interface OrderDetailsProps {
@@ -40,6 +41,7 @@ const statusConfig = {
 export function OrderDetails({ orderId, onBack }: OrderDetailsProps) {
   const [order, setOrder] = useState<OrderDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { getToken, isLoaded, isSignedIn } = useAuth();
 
   useEffect(() => {
     fetchOrderDetails();
@@ -48,7 +50,14 @@ export function OrderDetails({ orderId, onBack }: OrderDetailsProps) {
   const fetchOrderDetails = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://127.0.0.1:8000/order/get/${orderId}`);
+      if (!isLoaded || !isSignedIn) return;
+      const token = await getToken();
+      const response = await fetch(`http://127.0.0.1:8000/order/get/${orderId}`,
+        {headers: {
+          'authorization':`Bearer ${token}`,
+          'Content-Type': 'application/json',
+        }}
+      );
       const data = await response.json();
       setOrder(data);
     } catch (error) {

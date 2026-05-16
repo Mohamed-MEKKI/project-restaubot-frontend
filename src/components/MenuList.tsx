@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 import { toast } from 'sonner';
+import { useAuth } from '@clerk/clerk-react'  
 
 interface MenuItem {
   id: string;
@@ -25,13 +26,19 @@ export function MenuList({ onAddNew, onEdit }: MenuListProps) {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const { getToken, isLoaded, isSignedIn } = useAuth()
+
 
 const handleDelete = async (id: string) => {
+  if (!isLoaded || !isSignedIn) return
+
   if (!confirm('Are you sure you want to delete this menu item?')) return;
         
   try {
+    const token = await getToken()
     await fetch('http://127.0.0.1:8000/menuitem/delete/', {
           headers:{
+            'authorization':`Bearer ${token}`,
             'Content-Type':"application/json"
           },
           body: JSON.stringify({ids: [id]}),
@@ -48,8 +55,20 @@ useEffect(() => {
     setIsLoading(true);
     async function fetchItems() {
       
+      if (!isLoaded || !isSignedIn) return
+
       try {
-      const response = await fetch('http://127.0.0.1:8000/menuitem/get-all/');
+      
+      const token = await getToken()
+      const response = await fetch('http://127.0.0.1:8000/menuitem/get-all/',
+        {
+          headers:{
+            'authorization':`Bearer ${token}`,
+            'Content-Type':"application/json"
+          },
+          method: 'GET'
+        }
+      );
       const data = await response.json();
       setMenuItems(Array.isArray(data) ? data : []);
       } catch (error) {

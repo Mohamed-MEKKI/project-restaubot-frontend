@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import {useRouter} from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 
 interface HeaderProps {
   currentPage?: string;
@@ -39,6 +39,7 @@ export function Header({
   notificationCount = 4
 }: HeaderProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleNavigate = (page: string) => {
@@ -65,7 +66,7 @@ export function Header({
             <nav className="hidden md:flex items-center gap-2">
               {navigation.map((item) => {
                 const Icon = item.icon;
-                const isActive = router.pathname === item.href;
+                const isActive = pathname === item.href;
                 return (
                   <Link
                     key={item.name}
