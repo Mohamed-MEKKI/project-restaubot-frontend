@@ -83,6 +83,7 @@ export default function HomePage (){
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button 
                 size="lg" 
+                onClick={() => router.push("/sign-up")}
                 className="bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg hover:scale-105 transition-all group"
               >
                 Get Started Free
@@ -298,6 +299,7 @@ export default function HomePage (){
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
+              onClick={() => router.push("/sign-up")}
               className="bg-white text-primary hover:bg-gray-100 hover:scale-105 transition-all group"
             >
               Start Free Trial
