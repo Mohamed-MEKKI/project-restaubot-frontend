@@ -166,6 +166,18 @@ export function OrdersList({ onBack, onViewDetails }: OrdersListProps) {
     };
   }, [filteredOrders]);
 
+        // ─── Loading state ────────────────────────────────────────────────────────
+  if (!isLoaded || isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-muted-foreground">
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+          <p>Loading orders...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">

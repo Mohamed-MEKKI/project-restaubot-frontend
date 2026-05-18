@@ -3,10 +3,9 @@
 import Link from 'next/link';
 import BentoGrids from './BentoGrids';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, Zap, Users, TrendingUp, MessageCircle, Calendar, ShoppingCart, Star, CheckCircle } from 'lucide-react';
+import { ArrowRight, Zap, Users, TrendingUp, MessageCircle, Calendar, Loader2, ShoppingCart, Star, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -49,6 +48,18 @@ export default function HomePage (){
         }
         },[router, isLoaded, isSignedIn]
     )
+
+    // ─── Loading state ────────────────────────────────────────────────────────
+  if (!isLoaded || isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-muted-foreground">
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+          <p>Loading Home Page...</p>
+        </div>
+      </div>
+    );
+  }
 
     return(
     <div className="min-h-screen">

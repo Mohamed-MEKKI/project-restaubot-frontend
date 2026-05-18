@@ -147,6 +147,7 @@ export default function RestaurantDashboard() {
             <DashboardCard
               title="Customers"
               value="1,234"
+              onClick={() => router.push('/customers')}
               icon={Users}
               bgColor="bg-gradient-to-br from-green-100 to-green-50"
               trend={{

@@ -4,28 +4,71 @@ import Image from 'next/image'
 const ERROR_IMG_SRC =
   'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4KCg=='
 
-export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElement>) {
+type ImageWithFallbackProps = Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'width' | 'height'> & {
+  fill?: boolean
+  width?: number
+  height?: number
+  sizes?: string
+}
+
+export function ImageWithFallback({
+  src,
+  alt = '',
+  className,
+  style,
+  fill = false,
+  width,
+  height,
+  sizes,
+  ...rest
+}: ImageWithFallbackProps) {
   const [didError, setDidError] = useState(false)
 
-  const handleError = () => {
-    setDidError(true)
+  if (didError) {
+    return (
+      <div
+        className={`inline-block bg-gray-100 text-center align-middle ${className ?? ''}`}
+        style={style}
+      >
+        <div className="flex items-center justify-center w-full h-full">
+          <Image
+            src={ERROR_IMG_SRC}
+            alt="Error loading image"
+            width={88}
+            height={88}
+            data-original-url={src}
+          />
+        </div>
+      </div>
+    )
   }
 
-  const { src, alt, style, className, width, height, ...rest } = props
+  if (fill) {
+    return (
+      <Image
+        src={src!}
+        alt={alt}
+        fill
+        sizes={sizes ?? '100vw'}
+        className={className}
+        style={style}
+        onError={() => setDidError(true)}
+        {...rest}
+      />
+    )
+  }
 
-  const numWidth = width ? Number(width) : undefined
-  const numHeight = height ? Number(height) : undefined
-
-  return didError ? (
-    <div
-      className={`inline-block bg-gray-100 text-center align-middle ${className ?? ''}`}
+  return (
+    <Image
+      src={src!}
+      alt={alt}
+      width={width ?? 850}
+      height={height ?? 500}
+      sizes={sizes}
+      className={className}
       style={style}
-    >
-      <div className="flex items-center justify-center w-full h-full">
-        <Image src={ERROR_IMG_SRC} alt="Error loading image" {...rest} data-original-url={src} />
-      </div>
-    </div>
-  ) : (
-    <Image src={src} alt={alt} className={className} style={style} width={numWidth} height={numHeight} {...rest} onError={handleError} />
+      onError={() => setDidError(true)}
+      {...rest}
+    />
   )
 }

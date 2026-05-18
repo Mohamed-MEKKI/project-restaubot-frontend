@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Clock, User, Phone, MapPin, Package, DollarSign } from 'lucide-react';
+import { ArrowLeft, Clock, User, Phone, MapPin, Package, DollarSign, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
+
 import { useAuth } from '@clerk/clerk-react';
 import { toast } from 'sonner';
 
@@ -83,17 +84,13 @@ export function OrderDetails({ orderId, onBack }: OrderDetailsProps) {
     }
   };
 
-  if (isLoading) {
+      // ─── Loading state ────────────────────────────────────────────────────────
+  if (!isLoaded || isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 p-4 sm:p-6 lg:p-8">
-        <div className="max-w-4xl mx-auto">
-          <Card className="animate-pulse">
-            <CardContent className="p-8">
-              <div className="h-8 bg-muted rounded w-1/2 mb-4" />
-              <div className="h-4 bg-muted rounded w-3/4 mb-2" />
-              <div className="h-4 bg-muted rounded w-2/3" />
-            </CardContent>
-          </Card>
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-muted-foreground">
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+          <p>Loading clients...</p>
         </div>
       </div>
     );

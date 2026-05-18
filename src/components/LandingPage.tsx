@@ -1,9 +1,11 @@
-import { ArrowRight, Zap, Users, TrendingUp, MessageCircle, Calendar, ShoppingCart, Star, CheckCircle } from 'lucide-react';
+import { ArrowRight, Zap, Users, TrendingUp, MessageCircle, Calendar, ShoppingCart, Star, CheckCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { WhatsAppConversation, WhatsAppConversation2 } from '@/components/WhatsAppConversation';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
+import { useAuth } from '@clerk/nextjs';
+import { useState } from 'react';
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -26,7 +28,22 @@ function FeatureCard({ icon, title, description, gradient }: FeatureCardProps) {
   );
 }
 
+ 
 export function LandingPage() {
+    const [isLoading, setIsLoading] = useState(false);   
+    const { isSignedIn, isLoaded, getToken } = useAuth();
+
+  // ─── Loading state ────────────────────────────────────────────────────────
+  if (!isLoaded || isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-muted-foreground">
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+          <p>Loading Home Page...</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen">
       {/* Hero Section */}

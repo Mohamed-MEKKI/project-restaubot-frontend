@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useRef, useEffect } from 'react'; // ← added useRef, useEffect
 import { ArrowLeft, Upload, Loader2, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,12 +23,22 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
   const [errors, setErrors] = useState<FormErrors>({});
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { getToken, isLoaded, isSignedIn } = useAuth();
+  const imageInputRef = useRef<HTMLInputElement>(null); // ← ref instead of getElementById
 
   const requiredFields = ['name', 'price', 'cuisine', 'description', 'image'];
 
+  // Cleanup blob URL on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (imagePreview?.startsWith('blob:')) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
+
   const validate = (formData: FormData): FormErrors => {
     const errors: FormErrors = {};
-    
+
     requiredFields.forEach((field) => {
       const value = formData.get(field);
       if (!value || (typeof value === 'string' && value.trim() === '')) {
@@ -36,7 +46,6 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
       }
     });
 
-    // Validate price is a number
     const price = formData.get('price') as string;
     if (price && isNaN(Number(price))) {
       errors['price'] = 'Price must be a valid number';
@@ -47,12 +56,18 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleClearImage = () => {
+    setImagePreview(null);
+    if (imageInputRef.current) {
+      imageInputRef.current.value = ''; // ← safe ref-based reset
     }
   };
 
@@ -80,17 +95,14 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
       const token = await getToken();
       const response = await fetch('http://127.0.0.1:8000/menuitem/create/', {
         headers: {
-          'authorization':`Bearer ${token}`,
+          authorization: `Bearer ${token}`,
         },
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
-        const data = await response.json();
         toast.success('Menu item created successfully!');
-                
-        // Call success callback if provided
         if (onSuccess) {
           setTimeout(() => onSuccess(), 1000);
         }
@@ -106,34 +118,36 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
     }
   }
 
+   // ─── Loading state ────────────────────────────────────────────────────────
+  if (!isLoaded || isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3 text-muted-foreground">
+          <Loader2 className="h-10 w-10 animate-spin text-primary" />
+          <p>Loading menu form...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-3xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
-          <Button
-            variant="ghost"
-            className="mb-4 hover:bg-primary/10"
-            onClick={onBack}
-          >
+          <Button variant="ghost" className="mb-4 hover:bg-primary/10" onClick={onBack}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Menu
           </Button>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
             Create New Menu Item
           </h1>
-          <p className="text-muted-foreground text-lg">
-            Add a delicious new dish to your menu
-          </p>
+          <p className="text-muted-foreground text-lg">Add a delicious new dish to your menu</p>
         </div>
 
-        {/* Form Card */}
         <Card className="border-2 shadow-xl">
           <CardHeader>
             <CardTitle>Item Details</CardTitle>
-            <CardDescription>
-              Fill in the information about your menu item
-            </CardDescription>
+            <CardDescription>Fill in the information about your menu item</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={onSubmit} className="space-y-6">
@@ -150,13 +164,12 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
                 />
                 {errors.name && (
                   <div className="flex items-center gap-2 text-red-500 text-sm">
-                    <X className="h-4 w-4" />
-                    {errors.name}
+                    <X className="h-4 w-4" /> {errors.name}
                   </div>
                 )}
               </div>
 
-              {/* Price and Cuisine Row */}
+              {/* Price and Cuisine */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="price" className="text-base">
@@ -172,8 +185,7 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
                   />
                   {errors.price && (
                     <div className="flex items-center gap-2 text-red-500 text-sm">
-                      <X className="h-4 w-4" />
-                      {errors.price}
+                      <X className="h-4 w-4" /> {errors.price}
                     </div>
                   )}
                 </div>
@@ -190,8 +202,7 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
                   />
                   {errors.cuisine && (
                     <div className="flex items-center gap-2 text-red-500 text-sm">
-                      <X className="h-4 w-4" />
-                      {errors.cuisine}
+                      <X className="h-4 w-4" /> {errors.cuisine}
                     </div>
                   )}
                 </div>
@@ -210,8 +221,7 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
                 />
                 {errors.description && (
                   <div className="flex items-center gap-2 text-red-500 text-sm">
-                    <X className="h-4 w-4" />
-                    {errors.description}
+                    <X className="h-4 w-4" /> {errors.description}
                   </div>
                 )}
               </div>
@@ -222,30 +232,30 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
                   Image <span className="text-red-500">*</span>
                 </Label>
                 <div className="space-y-4">
-                  <div className="relative">
-                    <Input
-                      id="image"
-                      name="image"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className={`h-12 cursor-pointer ${errors.image ? 'border-red-500' : ''}`}
-                    />
-                  </div>
+                  <Input
+                    ref={imageInputRef} // ← ref attached here
+                    id="image"
+                    name="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    aria-describedby={errors.image ? 'image-error' : undefined}
+                    className={`h-12 cursor-pointer ${errors.image ? 'border-red-500' : ''}`}
+                  />
                   {errors.image && (
-                    <div className="flex items-center gap-2 text-red-500 text-sm">
-                      <X className="h-4 w-4" />
-                      {errors.image}
+                    <div id="image-error" role="alert" className="flex items-center gap-2 text-red-500 text-sm">
+                      <X className="h-4 w-4" /> {errors.image}
                     </div>
                   )}
-                  
-                  {/* Image Preview */}
-                  {imagePreview && (
+
+                  {imagePreview ? (
                     <div className="relative w-full h-64 rounded-lg overflow-hidden border-2 border-border">
                       <ImageWithFallback
                         src={imagePreview}
                         alt="Preview"
                         className="w-full h-full object-cover"
+                         width={800}   
+                        height={256}
                       />
                       <div className="absolute top-2 right-2">
                         <Button
@@ -253,38 +263,24 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
                           size="icon"
                           variant="secondary"
                           className="rounded-full"
-                          onClick={() => {
-                            setImagePreview(null);
-                            const input = document.getElementById('image') as HTMLInputElement;
-                            if (input) input.value = '';
-                          }}
+                          onClick={handleClearImage} // ← clean handler, no broken setFormData
                         >
                           <X className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
-                  )}
-
-                  {!imagePreview && (
+                  ) : (
                     <div className="border-2 border-dashed border-border rounded-lg p-8 text-center bg-muted/30">
                       <Upload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                      <p className="text-sm text-muted-foreground">
-                        Upload an image of your dish
-                      </p>
+                      <p className="text-sm text-muted-foreground">Upload an image of your dish</p>
                     </div>
                   )}
                 </div>
               </div>
 
-              {/* Submit Button */}
+              {/* Submit */}
               <div className="flex gap-4 pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="flex-1"
-                  onClick={onBack}
-                  disabled={isLoading}
-                >
+                <Button type="button" variant="outline" className="flex-1" onClick={onBack} disabled={isLoading}>
                   Cancel
                 </Button>
                 <Button
@@ -293,15 +289,9 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
                   className="flex-1 bg-gradient-to-r from-primary to-secondary hover:opacity-90"
                 >
                   {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Creating...
-                    </>
+                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating...</>
                   ) : (
-                    <>
-                      <Check className="mr-2 h-4 w-4" />
-                      Create Menu Item
-                    </>
+                    <><Check className="mr-2 h-4 w-4" /> Create Menu Item</>
                   )}
                 </Button>
               </div>
@@ -309,7 +299,6 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
           </CardContent>
         </Card>
 
-        {/* Help Text */}
         <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <p className="text-sm text-blue-800">
             <strong>Tip:</strong> High-quality images and detailed descriptions help customers make better choices and increase sales!
