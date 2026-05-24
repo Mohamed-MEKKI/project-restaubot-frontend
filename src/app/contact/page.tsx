@@ -35,7 +35,7 @@ export default function Contact() {
         setErrors({}); // Clear errors if all fields are valid
     
         try {
-          const response = await fetch('http://127.0.0.1:8000/restaurants/contact/', {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/restaurants/contact/`, {
             method: 'POST',
             body: formData,
           });

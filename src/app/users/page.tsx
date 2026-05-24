@@ -19,7 +19,7 @@ export default function UsersPage() {
       async function fetchItems() {
         
         try {
-        const response = await fetch('http://127.0.0.1:8000/user/get-all/');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/get-all/`);
         const data = await response.json();
         setUsers(data);
         /*if (!users || users.length === 0){

@@ -93,7 +93,7 @@ export function MenuItemForm({ onBack, onSuccess }: MenuItemFormProps) {
         return;
       }
       const token = await getToken();
-      const response = await fetch('http://127.0.0.1:8000/menuitem/create/', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/menuitem/create/`, {
         headers: {
           authorization: `Bearer ${token}`,
         },

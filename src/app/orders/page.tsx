@@ -19,7 +19,7 @@ export default function Orders() {
       async function fetchItems() {
         
         try {
-        const response = await fetch('http://127.0.0.1:8000/order/get-all/');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/order/get-all/`);
         const data = await response.json();
         setOrders(data);
         } catch (error) {
@@ -40,7 +40,7 @@ export default function Orders() {
       async function deleteItems() {
         if (clicked && deletingId) {
           try {
-          const response = fetch(`http://127.0.0.1:8000/order/delete/${deletingId.toString()}`, {
+          const response = fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/order/delete/${deletingId.toString()}`, {
             headers:{
               'Content-Type':"application/json"
             },

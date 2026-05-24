@@ -43,7 +43,7 @@ export default function MenuItemForm({ params }) {
     setErrors({}); // Clear errors if all fields are valid
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/menuitem/create/', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/menuitem/create/`, {
         method: 'POST',
         body: formData,
       });

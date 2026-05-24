@@ -32,7 +32,7 @@ export default function SingleMenuItemForm() {
     setErrors({}); // Clear errors if all fields are valid
     try {
 
-      const response = await fetch(`http://127.0.0.1:8000/menuitem/update/${parm.menuItemId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/menuitem/update/${parm.menuItemId}`, {
         method: 'PUT',
         body: formData,
       });

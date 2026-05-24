@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@clerk/clerk-react'  
+import dotenv from 'dotenv';
+
 
 import {
   Select,
@@ -68,7 +70,8 @@ export function OrdersList({ onBack, onViewDetails }: OrdersListProps) {
 
     try {
       const token = await getToken()
-      const response = await fetch('http://127.0.0.1:8000/order/get-all/',
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/order/get-all/`;
+      const response = await fetch(url,
         {
           headers: {
           'authorization':`Bearer ${token}`,
@@ -90,7 +93,7 @@ export function OrdersList({ onBack, onViewDetails }: OrdersListProps) {
     setUpdatingStatus(orderId);
     try {
       const token = await getToken()
-      const response = await fetch(`http://127.0.0.1:8000/order/update/${orderId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/order/update/${orderId}`, {
         method: 'PUT',
         headers: {
           'authorization':`Bearer ${token}`,
@@ -123,7 +126,7 @@ export function OrdersList({ onBack, onViewDetails }: OrdersListProps) {
 
     try {
       const token = await getToken()
-      const response = await fetch(`http://127.0.0.1:8000/order/delete/${orderToDelete}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/order/delete/${orderToDelete}`, {
         method: 'DELETE',
         headers: {
           'authorization':`Bearer ${token}`,

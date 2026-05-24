@@ -37,7 +37,7 @@ const handleDelete = async (id: string) => {
         
   try {
     const token = await getToken()
-    await fetch('http://127.0.0.1:8000/menuitem/delete/', {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/menuitem/delete/`, {
           headers:{
             'authorization':`Bearer ${token}`,
             'Content-Type':"application/json"
@@ -61,7 +61,7 @@ useEffect(() => {
       try {
       
       const token = await getToken()
-      const response = await fetch('http://127.0.0.1:8000/menuitem/get-all/',
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/menuitem/get-all/`,
         {
           headers:{
             'authorization':`Bearer ${token}`,

@@ -58,7 +58,7 @@ export function ClientsList({ onBack }: ClientsListProps) {
       setError(null);
       try {
         const token = await getToken();
-        const response = await fetch('http://127.0.0.1:8000/user/get-all/', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/get-all/`, {
           headers: {
             authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',

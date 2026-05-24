@@ -29,7 +29,8 @@ export default function OrderForm({ params }) {
     console.log(event.currentTarget)
     try {
       const formData = new FormData(event.currentTarget)
-      const response = await fetch('http://127.0.0.1:8000/user/update/1', {
+      console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/update/1`, {
         method: 'PUT',
         body: formData,
       })

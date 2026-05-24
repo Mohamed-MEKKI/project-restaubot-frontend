@@ -53,7 +53,7 @@ export function OrderDetails({ orderId, onBack }: OrderDetailsProps) {
     try {
       if (!isLoaded || !isSignedIn) return;
       const token = await getToken();
-      const response = await fetch(`http://127.0.0.1:8000/order/get/${orderId}`,
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/order/get/${orderId}`,
         {headers: {
           'authorization':`Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export function OrderDetails({ orderId, onBack }: OrderDetailsProps) {
       <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-3 text-muted-foreground">
           <Loader2 className="h-10 w-10 animate-spin text-primary" />
-          <p>Loading clients...</p>
+          <p>Loading order details...</p>
         </div>
       </div>
     );

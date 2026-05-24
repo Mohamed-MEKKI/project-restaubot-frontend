@@ -31,7 +31,7 @@ export default function OrderForm({ params }) {
       console.log(event.currentTarget)
       try {
         const formData = new FormData(event.currentTarget)
-        const response = await fetch('http://127.0.0.1:8000/order/create/', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/order/create/`, {
           method: 'POST',
           body: formData,
         })
