@@ -1,8 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState, useRef } from 'react';
-import { Message } from 'primereact/message';
-import { Toast } from 'primereact/toast';
 import { MenuItemForm as MenuItemFormComponent } from '@/components/MenuItemForm';
 import { Validate } from '@/utils/utilsFunctions';
 
@@ -40,10 +38,11 @@ export default function MenuItemForm({ params }) {
       return;
     }
 
-    setErrors({}); // Clear errors if all fields are valid
+    setErrors({}); 
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/menuitem/create/`, {
+        
         method: 'POST',
         body: formData,
       });

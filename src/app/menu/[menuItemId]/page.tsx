@@ -1,108 +1,58 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { FormEvent, use, useState } from 'react';
-import { Message } from 'primereact/message';
-import { Validate } from '@/utils/utilsFunctions';
-
+import { useEffect, useState } from 'react';
+import { useAuth } from '@clerk/clerk-react';
+import { Loader2 } from 'lucide-react';
+import { MenuItemEdit } from '@/components/MenuEditForm';
+import { apiFetch } from '@/api/menuApi';
+import { MenuItem } from 'interfaces/Menu'; // ← import from shared type, don't redefine here
 
 export default function SingleMenuItemForm() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errors, setErrors] = useState({});
+  const { menuItemId } = useParams<{ menuItemId: string }>();
+  const id = decodeURIComponent(menuItemId);
   const router = useRouter();
-  const parm  = useParams<{menuItemId: string}>();
 
-  const requiredFields = ['name', 'cuisine', 'price', 'inventory_status', 'description'];
+  const [item, setItem] = useState<MenuItem | null>(null); // ← was missing entirely
+  const [isFetching, setIsFetching] = useState(true);
+  const { getToken, isLoaded, isSignedIn } = useAuth();
 
-  const validate = (formData) => Validate(requiredFields, formData);
+  useEffect(() => {
+    if (!isLoaded || !isSignedIn || !id) return;
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsLoading(true);
-
-    const formData = new FormData(event.currentTarget);
-    const validationErrors = validate(formData);
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      setIsLoading(false);
-      return;
+    async function fetchItem() {
+      setIsFetching(true);
+      try {
+        const token = await getToken();
+        const data = await apiFetch(`/menuitem/get/${id}/`, token);
+        setItem(data);
+      } catch (error) {
+        console.error('Failed to fetch item:', error);
+      } finally {
+        setIsFetching(false);
+      }
     }
 
-    setErrors({}); // Clear errors if all fields are valid
-    try {
+    fetchItem();
+  }, [isLoaded, isSignedIn, id]);
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/menuitem/update/${parm.menuItemId}`, {
-        method: 'PUT',
-        body: formData,
-      });
-      const data = await response.json();
-      // Optionally handle response
-      router.push('/menu'); // move this after successful submit
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleOnBack = () => router.push('/');
+
+  if (!isLoaded || isFetching) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+      </div>
+    );
   }
 
-  return (
-    <div className="bg-orange-100 min-h-screen p-6">
-
-      <h1 className="text-5xl font-extrabold dark:text-white p-8">Edit Menu Item         
-          &nbsp;<span className="text-red-600">{decodeURIComponent(parm.menuItemId)}</span>
-      </h1>
-      
-    <div className="w-full max-w-xl bg-orange-400 p-8 rounded-lg shadow-md mx-auto flex flex-col items-center ">
-      <form
-        className="w-full max-w-lg bg-white p-8 rounded-xl shadow-md space-y-6"
-        onSubmit={onSubmit}
-        noValidate
-      >
-
-        {['name', 'cuisine', 'price', 'inventory_status', 'description'].map((field) => (
-          <div key={field} className="space-y-1">
-            <label
-              htmlFor={field}
-              className="block text-sm font-medium text-gray-700 capitalize"
-            >
-              {field}
-            </label>
-            <input
-              id={field}
-              name={field}
-              type="text"
-              placeholder={field === 'items' ? 'Comma separated items' : `Enter ${field}`}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-            {errors[field] && <Message severity="error" text={errors[field]} />}
-          </div>
-          
-        ))}
-           <label
-              htmlFor={'image'}
-              className="block text-sm font-medium text-gray-700 capitalize"
-            >
-              image
-            </label>
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          placeholder='Upload image'
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
-        {errors['image'] && <Message severity="error" text={errors['image']} />}
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full bg-yellow-600 text-white py-2 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
-        >
-          {isLoading ? 'Submitting...' : 'Submit'}
-        </button>
-      </form>
+  if (!item) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-red-500">Item not found.</p>
       </div>
-    </div>
-  );
+    );
+  }
+
+  return <MenuItemEdit menuItem={item} onBack={handleOnBack} />;
 }

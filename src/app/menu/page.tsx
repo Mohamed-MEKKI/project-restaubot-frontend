@@ -9,8 +9,11 @@ export default function MenuClient() {
   const handleAddNew = () => {
     router.push('/menu/create-menu-item');
   };
+  const handleEdit = (id) => {
+    router.push(`/menu/${id}`)
+  }
 
   return (
-    <MenuListComponent onAddNew={handleAddNew}/>
+    <MenuListComponent onAddNew={handleAddNew} onEdit={handleEdit}/>
   )
 }

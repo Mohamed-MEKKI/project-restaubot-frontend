@@ -30,7 +30,8 @@ export function AnalyticsView({ onNavigate }: AnalyticsViewProps) {
       setError(null);
       try {
         const token = await getToken();
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/analytics/get_menus_orders_stats`, {
+        console.log("TOKEN:", token);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/analytics/get_menus_orders_stats/`, {
           headers: {
             authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
